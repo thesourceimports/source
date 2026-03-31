@@ -1,0 +1,987 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2026 R&A National Campaign — The Source Imports</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<link rel="icon" href="https://thesourceimports.com/wp-content/uploads/2020/06/cropped-source-logo-1-32x32.png" />
+<style>
+  @font-face {
+    font-family: 'Adobe Garamond Pro';
+    src: local('Adobe Garamond Pro'), local('AGaramondPro-Regular');
+    font-weight: 400;
+    font-style: normal;
+  }
+  @font-face {
+    font-family: 'Adobe Garamond Pro';
+    src: local('Adobe Garamond Pro Bold'), local('AGaramondPro-Bold');
+    font-weight: 700;
+    font-style: normal;
+  }
+  @font-face {
+    font-family: 'Adobe Garamond Pro';
+    src: local('Adobe Garamond Pro Italic'), local('AGaramondPro-Italic');
+    font-weight: 400;
+    font-style: italic;
+  }
+
+  :root {
+    --navy: #1a2744;
+    --gold: #c9a84c;
+    --light: #ffffff;
+    --muted: #6b7280;
+    --white: #ffffff;
+    --tasting: #2d6a4f;
+    --drive: #4a6fa5;
+    --prep: #7c6f64;
+    --rest: #9ca3af;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Adobe Garamond Pro', 'Garamond', 'Georgia', serif;
+    background: var(--light);
+    color: #1f2937;
+    line-height: 1.6;
+  }
+
+  header {
+    background: url('https://thesourceimports.com/wp-content/webp-express/webp-images/doc-root/wp-content/uploads/2026/02/feb-cover-new.jpg.webp') center/cover no-repeat;
+    color: var(--white);
+    padding: 3.5rem 2rem 3rem;
+    text-align: center;
+    position: relative;
+  }
+
+  header::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.35);
+  }
+
+  header > * {
+    position: relative;
+    z-index: 1;
+  }
+
+  header .logo {
+    width: 260px;
+    max-width: 80%;
+    margin-bottom: 1.2rem;
+    filter: drop-shadow(0 2px 8px rgba(0,0,0,0.4));
+  }
+
+  header h1 {
+    font-family: 'Adobe Garamond Pro', 'Garamond', 'Georgia', serif;
+    font-size: 2.4rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    margin-bottom: 0.3rem;
+  }
+
+  header .subtitle {
+    font-family: 'Adobe Garamond Pro', 'Garamond', 'Georgia', serif;
+    color: var(--gold);
+    font-size: 1.15rem;
+    font-weight: 400;
+    font-style: italic;
+    margin-bottom: 0.2rem;
+    letter-spacing: 0.5px;
+  }
+
+  header .dates {
+    color: #94a3b8;
+    font-size: 0.95rem;
+    letter-spacing: 0.3px;
+  }
+
+  .route-banner {
+    padding: 0;
+  }
+
+  .route-cities {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.25rem;
+    color: var(--white);
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+  }
+
+  .route-cities .city {
+    background: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    backdrop-filter: blur(4px);
+    padding: 0.2rem 0.6rem;
+    border-radius: 14px;
+    color: #ffffff;
+    font-size: 0.82rem;
+  }
+
+  .route-cities .city small {
+    opacity: 0.6;
+    font-weight: 400;
+    font-size: 0.72rem;
+    margin-left: 0.15rem;
+  }
+
+  .route-cities .arrow {
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 0.75rem;
+    margin: 0 0.1rem;
+  }
+
+  .container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem;
+  }
+
+  /* Map Section */
+  .map-section {
+    margin-bottom: 2.5rem;
+  }
+
+  .map-section h2 {
+    font-family: 'Adobe Garamond Pro', 'Garamond', 'Georgia', serif;
+    font-size: 1.4rem;
+    color: var(--navy);
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--gold);
+    display: inline-block;
+  }
+
+  #map {
+    height: 480px;
+    border-radius: 12px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+    border: 1px solid #e5e7eb;
+    z-index: 1;
+  }
+
+  /* Custom Leaflet marker labels */
+  .city-label {
+    background: white;
+    border: 2px solid #1a2744;
+    border-radius: 8px;
+    padding: 4px 10px;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    color: #1a2744;
+    white-space: nowrap;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+    text-align: center;
+    line-height: 1.4;
+    overflow: visible !important;
+    width: auto !important;
+  }
+
+  .city-label .date {
+    font-size: 10px;
+    font-weight: 500;
+    color: #6b7280;
+  }
+
+  .city-label.tasting-label {
+    border-color: #c9a84c;
+    border-left: 4px solid #c9a84c;
+  }
+
+  .city-label.stop-label {
+    border-color: #4a6fa5;
+    border-left: 4px solid #4a6fa5;
+    font-weight: 500;
+    font-size: 11px;
+  }
+
+  /* Prevent Leaflet from clipping label divs */
+  .leaflet-marker-icon.city-label,
+  .leaflet-marker-icon.city-label.tasting-label,
+  .leaflet-marker-icon.city-label.stop-label {
+    overflow: visible !important;
+    width: auto !important;
+    height: auto !important;
+  }
+
+  .drive-label {
+    background: rgba(74, 111, 165, 0.9);
+    color: white;
+    border-radius: 12px;
+    padding: 2px 8px;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    white-space: nowrap;
+    border: none;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+  }
+
+  /* Map legend overlay */
+  .map-legend {
+    background: white;
+    padding: 10px 14px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    font-size: 12px;
+    line-height: 1.8;
+  }
+
+  .map-legend i {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    margin-right: 6px;
+    vertical-align: middle;
+  }
+
+  .map-legend .line-sample {
+    display: inline-block;
+    width: 20px;
+    height: 3px;
+    background: #4a6fa5;
+    margin-right: 6px;
+    vertical-align: middle;
+    border-radius: 2px;
+  }
+
+  /* Stats Bar */
+  .stats-bar {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .stat-card {
+    background: var(--white);
+    border-radius: 10px;
+    padding: 1.2rem;
+    text-align: center;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+    border: 1px solid #e5e7eb;
+  }
+
+  .stat-card .number {
+    font-family: 'Adobe Garamond Pro', 'Garamond', 'Georgia', serif;
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--navy);
+  }
+
+  .stat-card .label {
+    font-size: 0.8rem;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-top: 0.2rem;
+  }
+
+  /* Week Sections */
+  .week-section {
+    margin-bottom: 2.5rem;
+  }
+
+  .week-header {
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .week-header h2 {
+    font-family: 'Adobe Garamond Pro', 'Garamond', 'Georgia', serif;
+    font-size: 1.3rem;
+    color: var(--navy);
+  }
+
+  .week-header .week-dates {
+    color: var(--muted);
+    font-size: 0.9rem;
+  }
+
+  .day-card {
+    background: var(--white);
+    border-radius: 10px;
+    padding: 1.2rem 1.5rem;
+    margin-bottom: 0.75rem;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+    border-left: 4px solid var(--rest);
+    display: grid;
+    grid-template-columns: 160px 1fr;
+    gap: 1rem;
+    align-items: start;
+    border: 1px solid #e5e7eb;
+  }
+
+  .day-card.tasting { border-left-color: var(--tasting); }
+  .day-card.drive { border-left-color: var(--drive); }
+  .day-card.prep { border-left-color: var(--prep); }
+  .day-card.rest { border-left-color: var(--rest); }
+
+  .day-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+  }
+
+  .day-meta .day-date {
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: var(--navy);
+  }
+
+  .day-type {
+    display: inline-block;
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    padding: 0.15rem 0.6rem;
+    border-radius: 12px;
+    width: fit-content;
+  }
+
+  .day-type.tasting { background: #d8f3dc; color: #1b4332; }
+  .day-type.drive { background: #d0e2f4; color: #1e3a5f; }
+  .day-type.prep { background: #e8e0d8; color: #3e3028; }
+  .day-type.rest { background: #f0f0f0; color: #4b5563; }
+
+  .day-content h3 {
+    font-family: 'Adobe Garamond Pro', 'Garamond', 'Georgia', serif;
+    font-size: 1.05rem;
+    margin-bottom: 0.25rem;
+    color: #1f2937;
+  }
+
+  .day-content p {
+    font-size: 0.9rem;
+    color: #4b5563;
+  }
+
+  .drive-info {
+    font-size: 0.85rem;
+    color: var(--drive);
+    font-weight: 500;
+    margin-top: 0.2rem;
+  }
+
+  /* Notes */
+  .notes-section {
+    background: var(--white);
+    border-radius: 10px;
+    padding: 1.5rem 2rem;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+    border: 1px solid #e5e7eb;
+    margin-bottom: 2rem;
+  }
+
+  .notes-section h2 {
+    font-family: 'Adobe Garamond Pro', 'Garamond', 'Georgia', serif;
+    font-size: 1.2rem;
+    color: var(--navy);
+    margin-bottom: 0.8rem;
+  }
+
+  .notes-section ul {
+    list-style: none;
+    padding: 0;
+  }
+
+  .notes-section li {
+    padding: 0.4rem 0;
+    padding-left: 1.2rem;
+    position: relative;
+    font-size: 0.9rem;
+    color: #4b5563;
+  }
+
+  .notes-section li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.75rem;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--gold);
+  }
+
+  /* Legend */
+  .legend {
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    margin-bottom: 1.5rem;
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.8rem;
+    color: var(--muted);
+  }
+
+  .legend-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+  }
+
+  .legend-dot.tasting { background: var(--tasting); }
+  .legend-dot.drive { background: var(--drive); }
+  .legend-dot.prep { background: var(--prep); }
+  .legend-dot.rest { background: var(--rest); }
+
+  footer {
+    text-align: center;
+    padding: 2rem;
+    color: var(--muted);
+    font-size: 0.85rem;
+    font-style: italic;
+    border-top: 1px solid #e5e7eb;
+  }
+
+  @media (max-width: 640px) {
+    .day-card {
+      grid-template-columns: 1fr;
+      gap: 0.5rem;
+    }
+    .stats-bar {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    .route-cities {
+      font-size: 0.8rem;
+    }
+    header h1 { font-size: 1.6rem; }
+    #map { height: 350px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <img src="https://thesourceimports.com/wp-content/webp-express/webp-images/doc-root/wp-content/uploads/2025/09/logo2-new-gold-2020.png.webp" alt="The Source Imports" class="logo" />
+  <h1>2026 R&A National Campaign</h1>
+  <div class="dates">September 14 &ndash; October 1, 2026 &middot; 18 Days</div>
+  <div class="route-cities" style="margin-top: 1.2rem;">
+    <span class="city">New York <small>Mon</small></span><span class="arrow">&rarr;</span>
+    <span class="city">Detroit <small>Wed</small></span><span class="arrow">&rarr;</span>
+    <span class="city">Chicago <small>Mon</small></span><span class="arrow">&rarr;</span>
+    <span class="city">Billings <small>Thu</small></span><span class="arrow">&rarr;</span>
+    <span class="city">Denver <small>Mon</small></span><span class="arrow">&rarr;</span>
+    <span class="city">Phoenix <small>Thu</small></span>
+  </div>
+</header>
+
+<div class="container">
+
+  <!-- Map -->
+  <div class="map-section">
+    <h2>Route Map</h2>
+    <div id="map"></div>
+  </div>
+
+  <!-- Stats -->
+  <div class="stats-bar">
+    <div class="stat-card">
+      <div class="number">6</div>
+      <div class="label">Markets</div>
+    </div>
+    <div class="stat-card">
+      <div class="number">18</div>
+      <div class="label">Days</div>
+    </div>
+    <div class="stat-card">
+      <div class="number">6</div>
+      <div class="label">R&A Tastings</div>
+    </div>
+    <div class="stat-card">
+      <div class="number">~52</div>
+      <div class="label">Drive Hours</div>
+    </div>
+  </div>
+
+  <!-- Legend -->
+  <div class="legend">
+    <div class="legend-item"><div class="legend-dot tasting"></div> R&A Tasting</div>
+    <div class="legend-item"><div class="legend-dot drive"></div> Drive Day</div>
+    <div class="legend-item"><div class="legend-dot prep"></div> Account Prep</div>
+    <div class="legend-item"><div class="legend-dot rest"></div> Rest</div>
+  </div>
+
+  <!-- WEEK 1 -->
+  <div class="week-section">
+    <div class="week-header">
+      <h2>Week 1</h2>
+      <span class="week-dates">September 14 &ndash; September 20</span>
+    </div>
+
+    <div class="day-card tasting">
+      <div class="day-meta">
+        <span class="day-date">Mon, Sep 14</span>
+        <span class="day-type tasting">R&A Tasting</span>
+      </div>
+      <div class="day-content">
+        <h3>New York, NY</h3>
+        <p>Launch market. Accounts across Manhattan, Brooklyn, and key on-premise stops.</p>
+      </div>
+    </div>
+
+    <div class="day-card drive">
+      <div class="day-meta">
+        <span class="day-date">Tue, Sep 15</span>
+        <span class="day-type drive">Drive Day</span>
+      </div>
+      <div class="day-content">
+        <h3>New York &rarr; Detroit</h3>
+        <p>Depart after morning follow-ups. I-80 W to I-90 W into Michigan. Overnight Detroit.</p>
+        <div class="drive-info">~10 hours</div>
+      </div>
+    </div>
+
+    <div class="day-card tasting">
+      <div class="day-meta">
+        <span class="day-date">Wed, Sep 16</span>
+        <span class="day-type tasting">R&A Tasting</span>
+      </div>
+      <div class="day-content">
+        <h3>Detroit, MI</h3>
+        <p>Tastings across Detroit, Ferndale, and Ann Arbor accounts.</p>
+      </div>
+    </div>
+
+    <div class="day-card drive">
+      <div class="day-meta">
+        <span class="day-date">Thu, Sep 17</span>
+        <span class="day-type drive">Drive Day</span>
+      </div>
+      <div class="day-content">
+        <h3>Detroit &rarr; Chicago</h3>
+        <p>I-94 W along the lake. Easy leg &mdash; arrive Chicago early afternoon.</p>
+        <div class="drive-info">~5 hours</div>
+      </div>
+    </div>
+
+    <div class="day-card prep">
+      <div class="day-meta">
+        <span class="day-date">Fri, Sep 18</span>
+        <span class="day-type prep">Account Prep</span>
+      </div>
+      <div class="day-content">
+        <h3>Chicago, IL</h3>
+        <p>Walkarounds, drop-ins, and prep for Monday R&A. Relationship visits, no formal tasting.</p>
+      </div>
+    </div>
+
+    <div class="day-card rest">
+      <div class="day-meta">
+        <span class="day-date">Sat, Sep 19</span>
+        <span class="day-type rest">Rest</span>
+      </div>
+      <div class="day-content">
+        <h3>Chicago, IL</h3>
+        <p>Rest. Recharge. Optional city exploring.</p>
+      </div>
+    </div>
+
+    <div class="day-card rest">
+      <div class="day-meta">
+        <span class="day-date">Sun, Sep 20</span>
+        <span class="day-type rest">Rest</span>
+      </div>
+      <div class="day-content">
+        <h3>Chicago, IL</h3>
+        <p>Rest and final prep for Monday tasting.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- WEEK 2 -->
+  <div class="week-section">
+    <div class="week-header">
+      <h2>Week 2</h2>
+      <span class="week-dates">September 21 &ndash; September 27</span>
+    </div>
+
+    <div class="day-card tasting">
+      <div class="day-meta">
+        <span class="day-date">Mon, Sep 21</span>
+        <span class="day-type tasting">R&A Tasting</span>
+      </div>
+      <div class="day-content">
+        <h3>Chicago, IL</h3>
+        <p>Full tasting day. On-premise and retail across Chicago and North Shore accounts.</p>
+      </div>
+    </div>
+
+    <div class="day-card drive">
+      <div class="day-meta">
+        <span class="day-date">Tue, Sep 22</span>
+        <span class="day-type drive">Drive Day</span>
+      </div>
+      <div class="day-content">
+        <h3>Chicago &rarr; Sioux Falls, SD</h3>
+        <p>I-90 W through Wisconsin into South Dakota. Overnight Sioux Falls.</p>
+        <div class="drive-info">~8.5 hours</div>
+      </div>
+    </div>
+
+    <div class="day-card drive">
+      <div class="day-meta">
+        <span class="day-date">Wed, Sep 23</span>
+        <span class="day-type drive">Drive Day</span>
+      </div>
+      <div class="day-content">
+        <h3>Sioux Falls &rarr; Billings, MT</h3>
+        <p>Continue I-90 W through Wyoming into Montana. Arrive Billings early afternoon.</p>
+        <div class="drive-info">~6 hours</div>
+      </div>
+    </div>
+
+    <div class="day-card tasting">
+      <div class="day-meta">
+        <span class="day-date">Thu, Sep 24</span>
+        <span class="day-type tasting">R&A Tasting</span>
+      </div>
+      <div class="day-content">
+        <h3>Billings, MT</h3>
+        <p>Focused tasting &mdash; smaller market, high-value accounts.</p>
+      </div>
+    </div>
+
+    <div class="day-card drive">
+      <div class="day-meta">
+        <span class="day-date">Fri, Sep 25</span>
+        <span class="day-type drive">Drive Day</span>
+      </div>
+      <div class="day-content">
+        <h3>Billings &rarr; Denver, CO</h3>
+        <p>I-90 E to I-25 S through Wyoming into Colorado. Long but scenic leg through the high plains.</p>
+        <div class="drive-info">~9 hours</div>
+      </div>
+    </div>
+
+    <div class="day-card rest">
+      <div class="day-meta">
+        <span class="day-date">Sat, Sep 26</span>
+        <span class="day-type rest">Rest</span>
+      </div>
+      <div class="day-content">
+        <h3>Denver, CO</h3>
+        <p>Rest day. Recharge after the long drive from Montana.</p>
+      </div>
+    </div>
+
+    <div class="day-card rest">
+      <div class="day-meta">
+        <span class="day-date">Sun, Sep 27</span>
+        <span class="day-type rest">Rest</span>
+      </div>
+      <div class="day-content">
+        <h3>Denver, CO</h3>
+        <p>Rest and final prep for Monday tasting.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- WEEK 3 -->
+  <div class="week-section">
+    <div class="week-header">
+      <h2>Week 3 &mdash; Close</h2>
+      <span class="week-dates">September 28 &ndash; October 1</span>
+    </div>
+
+    <div class="day-card tasting">
+      <div class="day-meta">
+        <span class="day-date">Mon, Sep 28</span>
+        <span class="day-type tasting">R&A Tasting</span>
+      </div>
+      <div class="day-content">
+        <h3>Denver, CO</h3>
+        <p>Full tasting day. On-premise and retail across RiNo, LoDo, and Cherry Creek accounts.</p>
+      </div>
+    </div>
+
+    <div class="day-card drive">
+      <div class="day-meta">
+        <span class="day-date">Tue, Sep 29</span>
+        <span class="day-type drive">Drive Day</span>
+      </div>
+      <div class="day-content">
+        <h3>Denver &rarr; Santa Fe, NM</h3>
+        <p>I-25 S straight through Colorado into New Mexico. Beautiful drive through Raton Pass. Overnight Santa Fe.</p>
+        <div class="drive-info">~5.5 hours</div>
+      </div>
+    </div>
+
+    <div class="day-card drive">
+      <div class="day-meta">
+        <span class="day-date">Wed, Sep 30</span>
+        <span class="day-type drive">Drive Day</span>
+      </div>
+      <div class="day-content">
+        <h3>Santa Fe &rarr; Phoenix, AZ</h3>
+        <p>I-25 S to I-40 W through Albuquerque, then I-17 S into Arizona. High desert scenery all day.</p>
+        <div class="drive-info">~7.5 hours</div>
+      </div>
+    </div>
+
+    <div class="day-card tasting">
+      <div class="day-meta">
+        <span class="day-date">Thu, Oct 1</span>
+        <span class="day-type tasting">R&A Tasting</span>
+      </div>
+      <div class="day-content">
+        <h3>Phoenix, AZ</h3>
+        <p>Campaign close. Scottsdale, Tempe, and downtown accounts. Confirm reservations in advance &mdash; hot market.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Notes -->
+  <div class="notes-section">
+    <h2>Notes</h2>
+    <ul>
+      <li>Chicago &rarr; Billings is the longest stretch and is split across two drive days (Tue&ndash;Wed) with an overnight in Sioux Falls.</li>
+      <li>Billings &rarr; Denver is a long single-day drive (~9 hrs) followed by two rest days to recharge.</li>
+      <li>All R&A tastings are scheduled Monday&ndash;Wednesday where geography allows. The Billings tasting lands on Thursday due to the two-day drive from Chicago.</li>
+      <li>Denver &rarr; Phoenix is split into two comfortable days with an overnight in Santa Fe.</li>
+      <li>Total campaign: 6 markets &middot; 18 days &middot; ~4 drive days per week at comfortable daily distances.</li>
+    </ul>
+  </div>
+
+</div>
+
+<footer>
+  The Source Imports &middot; Confidential &middot; 2026 R&A National Campaign
+</footer>
+
+<script>
+  // Initialize map centered on the US
+  const map = L.map('map', {
+    zoomControl: true,
+    scrollWheelZoom: false
+  }).setView([40.5, -98], 4);
+
+  // Clean, light tile layer
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+    attribution: '&copy; OpenStreetMap &copy; CARTO',
+    subdomains: 'abcd',
+    maxZoom: 19
+  }).addTo(map);
+
+  // City data
+  const tastingCities = [
+    { name: 'New York',  lat: 40.7128, lng: -74.0060, date: 'Mon, Sep 14', order: 1 },
+    { name: 'Detroit',   lat: 42.3314, lng: -83.0458, date: 'Wed, Sep 16', order: 2 },
+    { name: 'Chicago',   lat: 41.8781, lng: -87.6298, date: 'Mon, Sep 21',  order: 3 },
+    { name: 'Billings',  lat: 45.7833, lng: -108.5007, date: 'Thu, Sep 24', order: 4 },
+    { name: 'Denver',    lat: 39.7392, lng: -104.9903, date: 'Mon, Sep 28', order: 5 },
+    { name: 'Phoenix',   lat: 33.4484, lng: -112.0740, date: 'Thu, Oct 1', order: 6 }
+  ];
+
+  const overnightStops = [
+    { name: 'Sioux Falls', lat: 43.5460, lng: -96.7313, note: 'Overnight' },
+    { name: 'Santa Fe', lat: 35.6870, lng: -105.9378, note: 'Overnight' }
+  ];
+
+  // Route segments with drive hours
+  const routeSegments = [
+    {
+      label: '~10 hrs',
+      coords: [
+        [40.7128, -74.0060],
+        [40.85, -75.5],
+        [41.0, -77.0],
+        [41.1, -79.0],
+        [41.3, -81.0],
+        [42.0, -82.5],
+        [42.3314, -83.0458]
+      ]
+    },
+    {
+      label: '~5 hrs',
+      coords: [
+        [42.3314, -83.0458],
+        [42.2, -84.5],
+        [42.0, -86.0],
+        [41.8781, -87.6298]
+      ]
+    },
+    {
+      label: '~8.5 hrs',
+      coords: [
+        [41.8781, -87.6298],
+        [42.5, -89.5],
+        [43.0, -91.5],
+        [43.3, -93.5],
+        [43.5460, -96.7313]
+      ]
+    },
+    {
+      label: '~6 hrs',
+      coords: [
+        [43.5460, -96.7313],
+        [43.8, -99.0],
+        [44.2, -101.5],
+        [44.8, -104.0],
+        [45.2, -106.0],
+        [45.7833, -108.5007]
+      ]
+    },
+    {
+      label: '~9 hrs',
+      coords: [
+        [45.7833, -108.5007],
+        [45.0, -107.5],
+        [44.3, -106.8],
+        [43.0, -106.3],
+        [42.0, -105.8],
+        [41.0, -105.3],
+        [39.7392, -104.9903]
+      ]
+    },
+    {
+      label: '~5.5 hrs',
+      coords: [
+        [39.7392, -104.9903],
+        [38.8, -105.2],
+        [37.8, -105.5],
+        [36.8, -105.7],
+        [35.6870, -105.9378]
+      ]
+    },
+    {
+      label: '~7.5 hrs',
+      coords: [
+        [35.6870, -105.9378],
+        [35.1, -106.6],
+        [35.0, -108.0],
+        [34.8, -109.5],
+        [34.2, -111.0],
+        [33.4484, -112.0740]
+      ]
+    }
+  ];
+
+  // Draw route lines
+  routeSegments.forEach(function(seg) {
+    // Main route line
+    L.polyline(seg.coords, {
+      color: '#4a6fa5',
+      weight: 4,
+      opacity: 0.8,
+      dashArray: '10, 6',
+      lineCap: 'round'
+    }).addTo(map);
+
+    // Shadow
+    L.polyline(seg.coords, {
+      color: '#1a2744',
+      weight: 6,
+      opacity: 0.15,
+      lineCap: 'round'
+    }).addTo(map);
+
+    // Drive time label at midpoint
+    var midIdx = Math.floor(seg.coords.length / 2);
+    var midLat = seg.coords[midIdx][0];
+    var midLng = seg.coords[midIdx][1];
+
+    L.marker([midLat, midLng], {
+      icon: L.divIcon({
+        className: 'drive-label',
+        html: seg.label,
+        iconSize: [55, 20],
+        iconAnchor: [27, 10]
+      }),
+      interactive: false
+    }).addTo(map);
+  });
+
+  // Draw tasting city markers (gold circles + labels)
+  tastingCities.forEach(function(city) {
+    // Gold circle marker
+    L.circleMarker([city.lat, city.lng], {
+      radius: 9,
+      fillColor: '#c9a84c',
+      color: '#1a2744',
+      weight: 2.5,
+      fillOpacity: 1
+    }).addTo(map).bindPopup(
+      '<b>' + city.name + '</b><br>R&A Tasting &mdash; ' + city.date
+    );
+
+    // Label
+    var anchor = city.name === 'Chicago' ? [-15, 18] :
+                 city.name === 'Detroit' ? [-15, -8] :
+                 city.name === 'Billings' ? [-15, -8] :
+                 city.name === 'New York' ? [-15, -8] :
+                 [-15, 18];
+
+    L.marker([city.lat, city.lng], {
+      icon: L.divIcon({
+        className: 'city-label tasting-label',
+        html: city.order + '. ' + city.name + '<br><span class="date">' + city.date + '</span>',
+        iconSize: [140, 40],
+        iconAnchor: anchor
+      }),
+      interactive: false
+    }).addTo(map);
+  });
+
+  // Draw overnight stop markers (blue, smaller)
+  overnightStops.forEach(function(stop) {
+    L.circleMarker([stop.lat, stop.lng], {
+      radius: 6,
+      fillColor: '#4a6fa5',
+      color: '#1a2744',
+      weight: 2,
+      fillOpacity: 1
+    }).addTo(map).bindPopup(
+      '<b>' + stop.name + '</b><br>' + stop.note
+    );
+
+    L.marker([stop.lat, stop.lng], {
+      icon: L.divIcon({
+        className: 'city-label stop-label',
+        html: stop.name + '<br><span class="date">' + stop.note + '</span>',
+        iconSize: [130, 36],
+        iconAnchor: [-12, 16]
+      }),
+      interactive: false
+    }).addTo(map);
+  });
+
+  // Map legend control
+  var legend = L.control({ position: 'bottomright' });
+  legend.onAdd = function () {
+    var div = L.DomUtil.create('div', 'map-legend');
+    div.innerHTML =
+      '<div><i style="background:#c9a84c;border:1.5px solid #1a2744"></i> Tasting Market</div>' +
+      '<div><i style="background:#4a6fa5;border:1.5px solid #1a2744"></i> Overnight Stop</div>' +
+      '<div><span class="line-sample" style="border-top:2.5px dashed #4a6fa5;background:none;height:0"></span> Drive Route</div>';
+    return div;
+  };
+  legend.addTo(map);
+
+  // Fit bounds to show all points
+  var allPoints = tastingCities.map(function(c) { return [c.lat, c.lng]; })
+    .concat(overnightStops.map(function(s) { return [s.lat, s.lng]; }));
+  map.fitBounds(allPoints, { padding: [40, 40] });
+</script>
+
+</body>
+</html>
