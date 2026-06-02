@@ -1,0 +1,3 @@
+# Vinosmith API cache — don't leak pricing data
+data/ny_cache.json
+data/prearrivals.json

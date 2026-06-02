@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Source — Purchasing Portal</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    background: #f8f8f6; color: #1a1a1a; padding: 0; min-height: 100vh;
+  }
+  .topbar {
+    background: #fff; border-bottom: 1px solid #e0ddd8; padding: 12px 24px;
+    display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;
+    position: sticky; top: 0; z-index: 100;
+  }
+  .topbar .logo { height: 32px; }
+  .topbar .controls { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; flex: 1; max-width: 700px; }
+  .topbar input, .topbar select {
+    padding: 8px 12px; border: 1px solid #d0cec8; border-radius: 4px;
+    font-size: 13px; background: #fff; outline: none; transition: border-color .15s;
+  }
+  .topbar input:focus, .topbar select:focus { border-color: #2d5016; }
+  .topbar input { flex: 1; min-width: 160px; }
+  .topbar .stats {
+    font-size: 12px; color: #888; white-space: nowrap;
+  }
+  .container { max-width: 1200px; margin: 0 auto; padding: 20px 24px; }
+
+  /* Pre-arrivals bar */
+  .prebar {
+    background: #edf5e8; border: 1px solid #c8dbb8; border-radius: 6px;
+    padding: 14px 18px; margin-bottom: 20px; font-size: 13px; line-height: 1.5;
+  }
+  .prebar strong { color: #2d5016; }
+  .prebar a { color: #2d5016; text-decoration: underline; cursor: pointer; }
+
+  /* Wines grid */
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 16px; }
+
+  /* Card */
+  .card {
+    background: #fff; border: 1px solid #e0ddd8; border-radius: 6px; padding: 16px;
+    transition: box-shadow .15s; position: relative;
+  }
+  .card:hover { box-shadow: 0 2px 8px rgba(0,0,0,.06); }
+  .card .producer {
+    font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .5px;
+    color: #2d5016; margin-bottom: 2px;
+  }
+  .card .wine-name {
+    font-size: 15px; font-weight: 600; line-height: 1.3; margin-bottom: 2px;
+  }
+  .card .vintage {
+    font-size: 13px; color: #888; margin-bottom: 6px;
+  }
+  .card .pricing {
+    font-size: 13px; margin-bottom: 8px;
+  }
+  .card .pricing .price { display: inline-block; margin-right: 8px; }
+  .card .pricing .price .val { font-weight: 600; }
+  .card .pricing .price .lbl { color: #888; font-size: 11px; }
+  .card .stock-badge {
+    display: inline-block; padding: 3px 8px; border-radius: 10px;
+    font-size: 11px; font-weight: 600; margin-bottom: 8px;
+  }
+  .stock-high { background: #e2f0da; color: #2d5016; }
+  .stock-mid { background: #fdf3d0; color: #8a6d0b; }
+  .stock-low { background: #f8d7da; color: #a12; }
+  .card .desc {
+    font-size: 12px; color: #555; line-height: 1.4;
+    display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
+  }
+  .card .no-stock { opacity: .5; }
+
+  .empty {
+    text-align: center; padding: 60px 20px; color: #888; font-size: 14px;
+  }
+
+  /* Pre-arrivals section */
+  .pre-section { margin-top: 32px; }
+  .pre-section h2 { font-size: 16px; font-weight: 600; margin-bottom: 12px; color: #2d5016; }
+  .pre-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 12px; }
+  .pre-card {
+    background: #edf5e8; border: 1px solid #c8dbb8; border-radius: 6px; padding: 12px 14px;
+    font-size: 12px; line-height: 1.4;
+  }
+  .pre-card .pre-prod { font-weight: 600; color: #2d5016; }
+  .pre-card .pre-name { color: #333; }
+  .pre-card .pre-eta { color: #888; margin-top: 4px; }
+  .pre-card .pre-dest { display: inline-block; font-size: 10px; background: #fff; border-radius: 8px; padding: 1px 6px; margin-top: 4px; }
+
+  @media (max-width: 640px) {
+    .topbar { padding: 10px 14px; }
+    .grid { grid-template-columns: 1fr; }
+    .container { padding: 14px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <img class="logo" src="https://thesourceimports.com/wp-content/uploads/2025/09/logo2-new-light-green-2025.png" alt="The Source">
+  <div class="controls">
+    <input type="text" id="search" placeholder="Search wines..." oninput="render()">
+    <select id="sort" onchange="render()">
+      <option value="stock-desc">Stock &#8595;</option>
+      <option value="stock-asc">Stock &#8593;</option>
+      <option value="price-asc">Price &#8595;</option>
+      <option value="price-desc">Price &#8593;</option>
+      <option value="producer">Producer A-Z</option>
+    </select>
+    <select id="filter-prod" onchange="render()">
+      <option value="">All Producers</option>
+    </select>
+    <span class="stats" id="stats"></span>
+  </div>
+</div>
+
+<div class="container">
+  <div id="prebar"></div>
+  <div id="pre-section"></div>
+  <div class="grid" id="grid"></div>
+</div>
+
+<script>
+const CACHE_URL = 'data/ny_cache.json';
+const PRE_URL = 'data/prearrivals.json';
+
+let wines = {}, stock = {}, prices = {};
+let preArrivals = [];
+let producers = [];
+
+async function init() {
+  try {
+    const [cacheRes, preRes] = await Promise.all([fetch(CACHE_URL), fetch(PRE_URL)]);
+    const cache = await cacheRes.json();
+    wines = cache.wines || {};
+    stock = cache.stock || {};
+    prices = cache.prices || {};
+
+    const preData = await preRes.json();
+    preArrivals = (preData.pre_arrivals || []).filter(p => p.quantity > 0);
+  } catch(e) {
+    console.warn('Data load error:', e);
+  }
+
+  // Build producer list
+  const prodSet = new Set();
+  for (const k in wines) {
+    const w = wines[k];
+    if (w && w.producer) prodSet.add(w.producer);
+  }
+  producers = [...prodSet].sort();
+  const sel = document.getElementById('filter-prod');
+  producers.forEach(p => {
+    const o = document.createElement('option');
+    o.value = p; o.textContent = p;
+    sel.appendChild(o);
+  });
+
+  render();
+}
+
+function getWineList() {
+  const search = (document.getElementById('search').value || '').toLowerCase();
+  const filterProd = document.getElementById('filter-prod').value;
+  const sort = document.getElementById('sort').value;
+
+  let list = [];
+  for (const code in wines) {
+    const w = wines[code];
+    if (!w || typeof w !== 'object') continue;
+    const s = parseFloat(stock[code]) || 0;
+    const p = prices[code] || {};
+    const prod = (w.producer || '').trim();
+    const name = (w.name || '').trim();
+    const vintage = (w.vintage || '').toString();
+    const desc = (w.description || '');
+
+    if (filterProd && prod !== filterProd) continue;
+    if (search) {
+      const haystack = (prod + ' ' + name + ' ' + vintage + ' ' + desc).toLowerCase();
+      if (!haystack.includes(search)) continue;
+    }
+
+    list.push({ code, prod, name, vintage, stock: s, fl: p.fl || 0, cs2: p.cs2 || 0, cs3: p.cs3 || 0, desc });
+  }
+
+  list.sort((a, b) => {
+    switch (sort) {
+      case 'stock-desc': return b.stock - a.stock;
+      case 'stock-asc': return a.stock - b.stock;
+      case 'price-asc': return a.fl - b.fl;
+      case 'price-desc': return b.fl - a.fl;
+      case 'producer': return (a.prod + a.name).localeCompare(b.prod + b.name);
+      default: return 0;
+    }
+  });
+
+  return list;
+}
+
+function stockClass(s) {
+  if (s >= 5) return 'stock-high';
+  if (s >= 1) return 'stock-mid';
+  return 'stock-low';
+}
+
+function render() {
+  const list = getWineList();
+  const grid = document.getElementById('grid');
+  const stats = document.getElementById('stats');
+
+  const totalStock = list.reduce((s, w) => s + w.stock, 0);
+  stats.textContent = list.length + ' wines / ' + totalStock.toFixed(0) + ' cs';
+
+  // Pre-arrivals bar
+  const prebar = document.getElementById('prebar');
+  if (preArrivals.length > 0) {
+    const totalPre = preArrivals.reduce((s, p) => s + parseFloat(p.quantity), 0);
+    prebar.innerHTML = '<strong>' + totalPre.toFixed(0) + ' cs</strong> pre-arriving &middot; <a onclick="document.getElementById(\'pre-section\').scrollIntoView({behavior:\'smooth\'})">View</a>';
+    prebar.style.display = 'block';
+
+    const preSec = document.getElementById('pre-section');
+    let html = '<div class="pre-section"><h2>Pre-Arrivals</h2><div class="pre-grid">';
+    preArrivals.forEach(p => {
+      const dest = p.destination ? '<span class="pre-dest">' + p.destination + '</span>' : '';
+      html += '<div class="pre-card">';
+      html += '<div class="pre-prod">' + (p.producer || '') + '</div>';
+      html += '<div class="pre-name">' + (p.vintage || '') + ' ' + (p.name || '') + '</div>';
+      html += '<div class="pre-eta">' + parseFloat(p.quantity).toFixed(0) + ' cs &middot; ETA ' + (p.eta || 'TBD') + ' ' + dest + '</div>';
+      html += '</div>';
+    });
+    html += '</div></div>';
+    preSec.innerHTML = html;
+  } else {
+    prebar.style.display = 'none';
+    document.getElementById('pre-section').innerHTML = '';
+  }
+
+  if (list.length === 0) {
+    grid.innerHTML = '<div class="empty">No wines match your search.</div>';
+    return;
+  }
+
+  let html = '';
+  list.forEach(w => {
+    const tiers = [];
+    if (w.fl) tiers.push('<span class="price"><span class="val">$' + w.fl.toFixed(2) + '</span> <span class="lbl">FL</span></span>');
+    if (w.cs2) tiers.push('<span class="price"><span class="val">$' + w.cs2.toFixed(2) + '</span> <span class="lbl">2+</span></span>');
+    if (w.cs3) tiers.push('<span class="price"><span class="val">$' + w.cs3.toFixed(2) + '</span> <span class="lbl">3+</span></span>');
+
+    const sc = stockClass(w.stock);
+    const stockLabel = w.stock < 1 ? 'cs' : 'cs';
+
+    const shortDesc = (w.desc || '').length > 200 ? (w.desc || '').substring(0, 200) + '...' : (w.desc || '');
+
+    html += '<div class="card' + (w.stock < 0.5 ? ' no-stock' : '') + '">';
+    html += '<div class="producer">' + escapeHtml(w.prod) + '</div>';
+    html += '<div class="wine-name">' + escapeHtml(w.vintage) + ' ' + escapeHtml(w.name) + '</div>';
+    html += '<div class="vintage">' + (w.vintage || 'NV') + '</div>';
+    html += '<div class="pricing">' + tiers.join('') + '</div>';
+    html += '<div class="stock-badge ' + sc + '">' + w.stock.toFixed(1) + ' ' + stockLabel + '</div>';
+    if (shortDesc) html += '<div class="desc">' + escapeHtml(shortDesc) + '</div>';
+    html += '</div>';
+  });
+
+  grid.innerHTML = html;
+}
+
+function escapeHtml(s) {
+  if (!s) return '';
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+init();
+</script>
+</body>
+</html>
