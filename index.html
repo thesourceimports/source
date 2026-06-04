@@ -346,20 +346,25 @@ function showCart() {
   }
 
   form.style.display = '';
-  let html = '';
+  var html = '';
+  var grandTotal = 0;
   cart.forEach(function(item) {
     var cases = Math.min(item.qty, Math.floor(item.stock));
+    var subtotal = cases * item.price;
+    grandTotal += subtotal;
     html += '<div style="display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid #eee;">';
-    html += '<button onclick="updateQty(\'' + item.code + '\',-1)" style="background:#eee;border:none;border-radius:3px;width:24px;height:24px;cursor:pointer;font-size:14px;">\u2212</button>';
+    html += '<button onclick="updateQty(\\'' + item.code + '\\',-1)" style="background:#eee;border:none;border-radius:3px;width:24px;height:24px;cursor:pointer;font-size:14px;">\\u2212</button>';
     html += '<span style="min-width:24px;text-align:center;font-weight:600;">' + cases + '</span>';
-    html += '<button onclick="updateQty(\'' + item.code + '\',1)" style="background:#eee;border:none;border-radius:3px;width:24px;height:24px;cursor:pointer;font-size:14px;">+</button>';
+    html += '<button onclick="updateQty(\\'' + item.code + '\\',1)" style="background:#eee;border:none;border-radius:3px;width:24px;height:24px;cursor:pointer;font-size:14px;">+</button>';
     html += '<div style="flex:1;font-size:12px;line-height:1.3;">';
     html += '<div style="font-weight:500;">' + item.name + '</div>';
     html += '<div style="color:#888;">' + item.producer + ' &middot; $' + item.price.toFixed(2) + '/cs</div>';
     html += '</div>';
-    html += '<button onclick="removeFromCart(\'' + item.code + '\')" style="background:none;border:none;color:#c0392b;cursor:pointer;font-size:16px;">&times;</button>';
+    html += '<div style="text-align:right;font-size:13px;font-weight:600;min-width:70px;">$' + subtotal.toFixed(2) + '</div>';
+    html += '<button onclick="removeFromCart(\\'' + item.code + '\\')" style="background:none;border:none;color:#c0392b;cursor:pointer;font-size:16px;">&times;</button>';
     html += '</div>';
   });
+  html += '<div style="display:flex;justify-content:space-between;padding:10px 0;font-weight:600;font-size:15px;border-top:2px solid #333;margin-top:4px;"><span>' + cart.reduce(function(s,i){return s+Math.min(i.qty,Math.floor(i.stock));},0) + ' cases</span><span>$' + grandTotal.toFixed(2) + '</span></div>';
   items.innerHTML = html;
 }
 
