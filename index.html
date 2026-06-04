@@ -272,6 +272,7 @@ function showList() {
   pvView.style.display = 'none';
   document.querySelectorAll('.pv').forEach(e => e.style.display = 'none');
   document.title = 'The Source \u2014 Purchasing Portal';
+  history.replaceState(null, '', '#list');
   filter();
 }
 
@@ -282,7 +283,8 @@ function showProducer(name) {
   document.querySelectorAll('.pv').forEach(e => e.style.display = 'none');
   const el = document.getElementById('pv-' + name);
   if (el) el.style.display = '';
-  document.title = name + ' \u2014 The Source';
+  document.title = name + ' \\u2014 The Source';
+  history.replaceState(null, '', '#' + encodeURIComponent(name));
 }
 
 function toggleDesc(el) {
@@ -371,32 +373,65 @@ function sendOrder() {
   var email = document.getElementById('cust-email').value.trim();
   var account = document.getElementById('cust-account').value.trim();
   var notes = document.getElementById('cust-notes').value.trim();
+  var btn = document.querySelector('#cart-form button');
 
   if (!name || !email) {
     alert('Please enter your name and email.');
     return;
   }
 
-  var body = 'Order from Purchasing Portal\n';
-  body += '==========================\n\n';
-  body += 'Name: ' + name + '\n';
-  body += 'Email: ' + email + '\n';
-  if (account) body += 'Account: ' + account + '\n';
-  if (notes) body += 'Notes: ' + notes + '\n';
-  body += '\n--- Items ---\n\n';
-
-  cart.forEach(function(item) {
-    var cases = Math.min(item.qty, Math.floor(item.stock));
-    body += cases + ' cs - ' + item.name + '\n';
-    body += '        (' + item.producer + ') @ $' + item.price.toFixed(2) + '/cs\n';
+  var items = cart.map(function(item) {
+    return {
+      code: item.code,
+      producer: item.producer,
+      name: item.name,
+      qty: Math.min(item.qty, Math.floor(item.stock)),
+      price: item.price,
+      stock: Math.floor(item.stock)
+    };
   });
 
-  var total = cart.reduce(function(s, i) { return s + Math.min(i.qty, Math.floor(i.stock)); }, 0);
-  body += '\nTotal: ' + total + ' cases\n';
+  var payload = JSON.stringify({name: name, email: email, account: account, notes: notes, items: items});
 
-  var subject = encodeURIComponent('Order from ' + name + (account ? ' - ' + account : ''));
-  window.location.href = 'mailto:remy@thesourceimports.com?subject=' + subject + '&body=' + encodeURIComponent(body);
-  closeCart();
+  btn.disabled = true;
+  btn.textContent = 'Sending...';
+
+  var ORDER_URL = 'https://arctic-rates-manchester-salmon.trycloudflare.com';
+
+  fetch(ORDER_URL, {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: payload
+  }).then(function(r) { return r.json(); }).then(function(data) {
+    if (data.ok) {
+      cart = [];
+      updateCartBadge();
+      document.getElementById('cart-items').innerHTML = '<p style="color:#2d5016;font-size:14px;">Order sent! You will receive a confirmation at ' + email + '.</p>';
+      document.getElementById('cart-form').style.display = 'none';
+    } else {
+      alert('Error sending order. Please try again or email remy@thesourceimports.com directly.');
+      btn.disabled = false;
+      btn.textContent = 'Send Order';
+    }
+  }).catch(function() {
+    var body = 'Order from Purchasing Portal\n';
+    body += '==========================\n\n';
+    body += 'Name: ' + name + '\n';
+    body += 'Email: ' + email + '\n';
+    if (account) body += 'Account: ' + account + '\n';
+    if (notes) body += 'Notes: ' + notes + '\n';
+    body += '\n--- Items ---\n\n';
+    cart.forEach(function(item) {
+      var cases = Math.min(item.qty, Math.floor(item.stock));
+      body += cases + ' cs - ' + item.name + '\n';
+      body += '        (' + item.producer + ') @ $' + item.price.toFixed(2) + '/cs\n';
+    });
+    var total = cart.reduce(function(s, i) { return s + Math.min(i.qty, Math.floor(i.stock)); }, 0);
+    body += '\nTotal: ' + total + ' cases\n';
+    window.location.href = 'mailto:remy@thesourceimports.com?subject=' + encodeURIComponent('Order from ' + name + (account ? ' - ' + account : '')) + '&body=' + encodeURIComponent(body);
+    alert('Could not reach order server. Using your email client as fallback.');
+    closeCart();
+  });
 }
 
 function filter() {
@@ -437,6 +472,32 @@ document.addEventListener('keydown', function(e) {
     }
   }
 });
+
+// Hash routing on load
+function routeFromHash() {
+  var hash = window.location.hash.slice(1);
+  if (!hash || hash === 'list' || hash === '/') {
+    showList();
+  } else {
+    var name = decodeURIComponent(hash);
+    var el = document.getElementById('pv-' + name);
+    if (el) {
+      showProducer(name);
+    } else {
+      var items = document.querySelectorAll('.pl-item');
+      for (var i = 0; i < items.length; i++) {
+        if (items[i].dataset.producer.toLowerCase() === name.toLowerCase()) {
+          showProducer(items[i].dataset.producer);
+          return;
+        }
+      }
+      showList();
+    }
+  }
+}
+
+window.addEventListener('hashchange', routeFromHash);
+routeFromHash();
 </script>
 </body>
 </html>
