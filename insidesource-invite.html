@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>THE SOURCE | INSIDE SOURCE 2026</title>
+<meta name="description" content="You are invited to Inside Source 2026 — The Source Imports. Two tastings in New York City: Tuesday, September 29 at Leon &amp; Son and Wednesday, September 30 at Community Wine &amp; Spirits.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+
+<style>
+  @font-face {
+    font-family: 'The Source';
+    src: local('The Source 4 Regular'), local('TheSource4-Regular'),
+         local('The Source'), local('TheSource'),
+         url('https://thesourceimports.com/fonts/TheSource4-Regular%202.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+  }
+
+  :root {
+    --bg: #0a0a0a;
+    --ink: #e8e4df;
+    --gold: #8B734A;
+    --venue-mute: #7a756e;
+    --time-mute: #5a5550;
+    --rule: rgba(139, 115, 74, 0.35);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'EB Garamond', 'ATF Garamond', 'Garamond', Georgia, serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    line-height: 1.5;
+  }
+
+  .src {
+    font-family: 'The Source', 'EB Garamond', 'ATF Garamond', 'Garamond', serif;
+    font-weight: normal;
+  }
+
+  .wrap {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 0 28px;
+  }
+
+  /* ---------- header ---------- */
+  header {
+    text-align: center;
+    padding: 56px 0 0;
+  }
+  .logo {
+    display: inline-block;
+    width: 270px;
+    max-width: 72vw;
+    height: auto;
+    vertical-align: middle;
+  }
+
+  /* ---------- rules ---------- */
+  .rule {
+    height: 1px;
+    border: 0;
+    background: linear-gradient(90deg, transparent, var(--rule), transparent);
+    border: none;
+    margin: 0 auto;
+    width: 60%;
+  }
+  .rule.strong { background: linear-gradient(90deg, transparent, var(--gold), transparent); width: 120px; }
+
+  /* ---------- headline ---------- */
+  .headline {
+    text-align: center;
+    padding: 40px 0 8px;
+  }
+  .invited {
+    font-size: 21px;
+    letter-spacing: 0.42em;
+    text-indent: 0.42em;
+    color: var(--gold);
+    margin-bottom: 22px;
+  }
+  .title {
+    font-size: clamp(44px, 9vw, 66px);
+    line-height: 1.05;
+    color: var(--ink);
+  }
+  .year {
+    font-size: clamp(36px, 7vw, 52px);
+    letter-spacing: 0.3em;
+    text-indent: 0.3em;
+    color: var(--gold);
+    line-height: 1.1;
+    margin-top: 6px;
+  }
+
+  /* ---------- city label ---------- */
+  .city-label {
+    text-align: center;
+    padding: 42px 0 10px;
+    font-size: 17px;
+    letter-spacing: 0.5em;
+    text-indent: 0.5em;
+    color: var(--venue-mute);
+  }
+
+  /* ---------- events ---------- */
+  .event {
+    text-align: center;
+    padding: 44px 0 12px;
+  }
+  .event + .event { padding-top: 52px; }
+
+  .kicker {
+    font-size: 15px;
+    letter-spacing: 0.28em;
+    text-indent: 0.28em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 14px;
+  }
+  .venue {
+    font-size: clamp(30px, 7.5vw, 44px);
+    line-height: 1.1;
+    color: var(--ink);
+    letter-spacing: 0.02em;
+  }
+  .address {
+    display: inline-block;
+    margin-top: 12px;
+    font-size: 20px;
+    color: var(--venue-mute);
+    text-decoration: none;
+    border-bottom: 1px solid rgba(139, 115, 74, 0.45);
+    padding-bottom: 2px;
+    transition: color 0.2s ease, border-color 0.2s ease;
+  }
+  .address:hover {
+    color: var(--ink);
+    border-color: var(--gold);
+  }
+
+  .seatings {
+    margin-top: 26px;
+  }
+  .seatings .label {
+    display: block;
+    font-size: 14px;
+    letter-spacing: 0.3em;
+    text-indent: 0.3em;
+    text-transform: uppercase;
+    color: var(--time-mute);
+    margin-bottom: 10px;
+  }
+  .times {
+    font-size: clamp(26px, 5.5vw, 34px);
+    letter-spacing: 0.04em;
+    color: var(--ink);
+  }
+  .pace {
+    display: inline-block;
+    font-family: 'EB Garamond', 'ATF Garamond', 'Garamond', Georgia, serif;
+    font-style: italic;
+    font-size: clamp(17px, 3.4vw, 20px);
+    letter-spacing: 0.02em;
+    color: var(--venue-mute);
+    margin-left: 8px;
+  }
+
+  /* ---------- footer ---------- */
+  footer {
+    text-align: center;
+    padding: 64px 0 72px;
+  }
+  .footer-brand {
+    display: block;
+    font-size: 16px;
+    letter-spacing: 0.3em;
+    text-indent: 0.3em;
+    color: var(--time-mute);
+    margin-top: 34px;
+  }
+  .footer-site {
+    display: inline-block;
+    margin-top: 12px;
+    font-family: 'EB Garamond', 'ATF Garamond', 'Garamond', Georgia, serif;
+    font-size: 18px;
+    color: var(--venue-mute);
+    text-decoration: none;
+  }
+  .footer-site:hover { color: var(--ink); }
+
+  @media (max-width: 560px) {
+    header { padding-top: 44px; }
+    .headline { padding-top: 32px; }
+    .event { padding: 36px 0 8px; }
+    .event + .event { padding-top: 44px; }
+    .pace { display: block; margin: 8px 0 0; }
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <header>
+    <img class="logo" src="https://thesourceimports.github.io/source/images/inside-source-2026/logo.png" alt="The Source Imports" width="568" height="105">
+  </header>
+
+  <hr class="rule strong" style="margin-top:44px;">
+
+  <section class="headline">
+    <div class="invited src">You Are Invited</div>
+    <h1 class="title src">Inside Source</h1>
+    <div class="year src">2026</div>
+  </section>
+
+  <hr class="rule">
+
+  <div class="city-label src">NEW YORK CITY</div>
+
+  <!-- Tuesday -->
+  <section class="event">
+    <div class="kicker">Brooklyn &nbsp;·&nbsp; Tuesday, September 29</div>
+    <h2 class="venue src">Leon &amp; Son</h2>
+    <a class="address" href="https://www.google.com/maps/search/?api=1&query=995+Fulton+St+Brooklyn+NY+11238" target="_blank" rel="noopener">
+      995 Fulton Street, Brooklyn, NY 11238
+    </a>
+    <div class="seatings">
+      <span class="label">Two seatings</span>
+      <div class="times src">10:30 a.m. &amp; 1:00 p.m. <span class="pace">(taste at your own pace)</span></div>
+    </div>
+  </section>
+
+  <hr class="rule">
+
+  <!-- Wednesday -->
+  <section class="event">
+    <div class="kicker">Manhattan &nbsp;·&nbsp; Wednesday, September 30</div>
+    <h2 class="venue src">Community Wine &amp; Spirits</h2>
+    <a class="address" href="https://www.google.com/maps/search/?api=1&query=140+10th+Ave+New+York+NY+10011" target="_blank" rel="noopener">
+      140 10th Avenue, New York, NY 10011
+    </a>
+    <div class="seatings">
+      <span class="label">Two seatings</span>
+      <div class="times src">10:30 a.m. &amp; 1:00 p.m. <span class="pace">(taste at your own pace)</span></div>
+    </div>
+  </section>
+
+  <footer>
+    <hr class="rule">
+    <span class="footer-brand src">THE SOURCE IMPORTS</span>
+    <a class="footer-site" href="https://thesourceimports.com" target="_blank" rel="noopener">thesourceimports.com</a>
+  </footer>
+
+</div>
+
+</body>
+</html>
