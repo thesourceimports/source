@@ -12,12 +12,12 @@
 
 <style>
   :root {
-    --bg: #0a0a0a;
-    --ink: #e8e4df;
+    --bg: #ffffff;
+    --ink: #141414;
     --gold: #8B734A;
-    --venue-mute: #7a756e;
-    --time-mute: #5a5550;
-    --rule: rgba(139, 115, 74, 0.35);
+    --venue-mute: #6b655f;
+    --time-mute: #57524d;
+    --rule: rgba(139, 115, 74, 0.45);
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -73,20 +73,17 @@
     color: var(--gold);
     margin-bottom: 20px;
   }
-  .title {
-    font-size: clamp(40px, 8vw, 58px);
-    font-weight: 500;
-    line-height: 1.08;
-    color: var(--ink);
+  .title-img {
+    display: block;
+    margin: 0 auto;
+    max-width: 100%;
+    height: auto;
   }
-  .year {
-    font-size: clamp(30px, 6vw, 44px);
-    font-weight: 400;
-    letter-spacing: 0.28em;
-    text-indent: 0.28em;
-    color: var(--gold);
-    line-height: 1.15;
-    margin-top: 8px;
+  .year-img {
+    display: block;
+    margin: 6px auto 0;
+    max-width: 100%;
+    height: auto;
   }
 
   /* ---------- city label ---------- */
@@ -97,7 +94,7 @@
     letter-spacing: 0.45em;
     text-indent: 0.45em;
     text-transform: uppercase;
-    color: var(--venue-mute);
+    color: var(--time-mute);
   }
 
   /* ---------- events ---------- */
@@ -127,7 +124,7 @@
     font-size: 20px;
     color: var(--venue-mute);
     text-decoration: none;
-    border-bottom: 1px solid rgba(139, 115, 74, 0.45);
+    border-bottom: 1px solid rgba(139, 115, 74, 0.55);
     padding-bottom: 2px;
     transition: color 0.2s ease, border-color 0.2s ease;
   }
@@ -199,15 +196,15 @@
 <div class="wrap">
 
   <header>
-    <img class="logo" src="https://thesourceimports.github.io/source/images/inside-source-2026/logo.png" alt="The Source Imports" width="568" height="105">
+    <img class="logo" src="https://lh3.googleusercontent.com/d/1lH78PqYmQGllD10WdjTZyP3WQGPl4oj8=w568" alt="The Source Imports" width="568" height="105">
   </header>
 
   <hr class="rule strong" style="margin-top:44px;">
 
   <section class="headline">
     <div class="invited">You Are Invited</div>
-    <h1 class="title">Inside Source</h1>
-    <div class="year">2026</div>
+    <h1><img class="title-img" src="https://lh3.googleusercontent.com/d/1tBXr9ECz9mbjf8lVqIfLB0Ngu0mebwvO=w1264" alt="Inside Source" width="316" height="80"></h1>
+    <img class="year-img" src="https://lh3.googleusercontent.com/d/1aqX2H2mv5AfGSRFjSAVyA-dudUwq4v5i=w584" alt="2026" width="146" height="66">
   </section>
 
   <hr class="rule">
@@ -217,7 +214,7 @@
   <!-- Tuesday -->
   <section class="event">
     <div class="kicker">Brooklyn &nbsp;·&nbsp; Tuesday, September 29</div>
-    <img class="venue-img" src="https://lh3.googleusercontent.com/d/1jLD4WdF3ZAcUQyTB85j2uNwkZHAO03kn=w944" alt="Leon &amp; Son" width="236" height="61">
+    <img class="venue-img" src="https://lh3.googleusercontent.com/d/1RBG-tSCEtk8I7_FEI_kxDvmq9NiCE5ZK=w947" alt="Leon &amp; Son" width="236" height="61">
     <a class="address" href="https://www.google.com/maps/search/?api=1&query=995+Fulton+St+Brooklyn+NY+11238" target="_blank" rel="noopener">
       995 Fulton Street, Brooklyn, NY 11238
     </a>
@@ -232,7 +229,7 @@
   <!-- Wednesday -->
   <section class="event">
     <div class="kicker">Manhattan &nbsp;·&nbsp; Wednesday, September 30</div>
-    <img class="venue-img" src="https://lh3.googleusercontent.com/d/1Q_io4QUgDS7iFB-K11RswSFqTWn0_-wN=w1948" alt="Community Wine &amp; Spirits" width="487" height="60">
+    <img class="venue-img" src="https://lh3.googleusercontent.com/d/1BLEkGwJk4YGC_gXPuHFngJ7GIVXVdZ9X=w1949" alt="Community Wine &amp; Spirits" width="487" height="60">
     <a class="address" href="https://www.google.com/maps/search/?api=1&query=140+10th+Ave+New+York+NY+10011" target="_blank" rel="noopener">
       140 10th Avenue, New York, NY 10011
     </a>
