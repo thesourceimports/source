@@ -11,15 +11,6 @@
 <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
 
 <style>
-  @font-face {
-    font-family: 'The Source';
-    src: local('The Source 4 Regular'), local('TheSource4-Regular'),
-         local('The Source'), local('TheSource'),
-         url('https://thesourceimports.com/fonts/TheSource4-Regular%202.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
-  }
-
   :root {
     --bg: #0a0a0a;
     --ink: #e8e4df;
@@ -31,8 +22,6 @@
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
-  html { scroll-behavior: smooth; }
-
   body {
     background: var(--bg);
     color: var(--ink);
@@ -40,11 +29,6 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     line-height: 1.5;
-  }
-
-  .src {
-    font-family: 'The Source', 'EB Garamond', 'ATF Garamond', 'Garamond', serif;
-    font-weight: normal;
   }
 
   .wrap {
@@ -71,7 +55,6 @@
     height: 1px;
     border: 0;
     background: linear-gradient(90deg, transparent, var(--rule), transparent);
-    border: none;
     margin: 0 auto;
     width: 60%;
   }
@@ -84,32 +67,36 @@
   }
   .invited {
     font-size: 21px;
-    letter-spacing: 0.42em;
-    text-indent: 0.42em;
+    font-style: italic;
+    letter-spacing: 0.18em;
+    text-indent: 0.18em;
     color: var(--gold);
-    margin-bottom: 22px;
+    margin-bottom: 20px;
   }
   .title {
-    font-size: clamp(44px, 9vw, 66px);
-    line-height: 1.05;
+    font-size: clamp(40px, 8vw, 58px);
+    font-weight: 500;
+    line-height: 1.08;
     color: var(--ink);
   }
   .year {
-    font-size: clamp(36px, 7vw, 52px);
-    letter-spacing: 0.3em;
-    text-indent: 0.3em;
+    font-size: clamp(30px, 6vw, 44px);
+    font-weight: 400;
+    letter-spacing: 0.28em;
+    text-indent: 0.28em;
     color: var(--gold);
-    line-height: 1.1;
-    margin-top: 6px;
+    line-height: 1.15;
+    margin-top: 8px;
   }
 
   /* ---------- city label ---------- */
   .city-label {
     text-align: center;
     padding: 42px 0 10px;
-    font-size: 17px;
-    letter-spacing: 0.5em;
-    text-indent: 0.5em;
+    font-size: 16px;
+    letter-spacing: 0.45em;
+    text-indent: 0.45em;
+    text-transform: uppercase;
     color: var(--venue-mute);
   }
 
@@ -126,17 +113,17 @@
     text-indent: 0.28em;
     text-transform: uppercase;
     color: var(--gold);
-    margin-bottom: 14px;
+    margin-bottom: 18px;
   }
-  .venue {
-    font-size: clamp(30px, 7.5vw, 44px);
-    line-height: 1.1;
-    color: var(--ink);
-    letter-spacing: 0.02em;
+  .venue-img {
+    display: block;
+    margin: 0 auto;
+    max-width: 100%;
+    height: auto;
   }
   .address {
     display: inline-block;
-    margin-top: 12px;
+    margin-top: 14px;
     font-size: 20px;
     color: var(--venue-mute);
     text-decoration: none;
@@ -162,13 +149,12 @@
     margin-bottom: 10px;
   }
   .times {
-    font-size: clamp(26px, 5.5vw, 34px);
+    font-size: clamp(24px, 5vw, 32px);
     letter-spacing: 0.04em;
     color: var(--ink);
   }
   .pace {
     display: inline-block;
-    font-family: 'EB Garamond', 'ATF Garamond', 'Garamond', Georgia, serif;
     font-style: italic;
     font-size: clamp(17px, 3.4vw, 20px);
     letter-spacing: 0.02em;
@@ -183,16 +169,16 @@
   }
   .footer-brand {
     display: block;
-    font-size: 16px;
-    letter-spacing: 0.3em;
-    text-indent: 0.3em;
+    font-size: 15px;
+    letter-spacing: 0.32em;
+    text-indent: 0.32em;
+    text-transform: uppercase;
     color: var(--time-mute);
     margin-top: 34px;
   }
   .footer-site {
     display: inline-block;
     margin-top: 12px;
-    font-family: 'EB Garamond', 'ATF Garamond', 'Garamond', Georgia, serif;
     font-size: 18px;
     color: var(--venue-mute);
     text-decoration: none;
@@ -219,25 +205,25 @@
   <hr class="rule strong" style="margin-top:44px;">
 
   <section class="headline">
-    <div class="invited src">You Are Invited</div>
-    <h1 class="title src">Inside Source</h1>
-    <div class="year src">2026</div>
+    <div class="invited">You Are Invited</div>
+    <h1 class="title">Inside Source</h1>
+    <div class="year">2026</div>
   </section>
 
   <hr class="rule">
 
-  <div class="city-label src">NEW YORK CITY</div>
+  <div class="city-label">New York City</div>
 
   <!-- Tuesday -->
   <section class="event">
     <div class="kicker">Brooklyn &nbsp;·&nbsp; Tuesday, September 29</div>
-    <h2 class="venue src">Leon &amp; Son</h2>
+    <img class="venue-img" src="https://lh3.googleusercontent.com/d/1jLD4WdF3ZAcUQyTB85j2uNwkZHAO03kn=w944" alt="Leon &amp; Son" width="236" height="61">
     <a class="address" href="https://www.google.com/maps/search/?api=1&query=995+Fulton+St+Brooklyn+NY+11238" target="_blank" rel="noopener">
       995 Fulton Street, Brooklyn, NY 11238
     </a>
     <div class="seatings">
       <span class="label">Two seatings</span>
-      <div class="times src">10:30 a.m. &amp; 1:00 p.m. <span class="pace">(taste at your own pace)</span></div>
+      <div class="times">10:30 a.m. &amp; 1:00 p.m. <span class="pace">(taste at your own pace)</span></div>
     </div>
   </section>
 
@@ -246,19 +232,19 @@
   <!-- Wednesday -->
   <section class="event">
     <div class="kicker">Manhattan &nbsp;·&nbsp; Wednesday, September 30</div>
-    <h2 class="venue src">Community Wine &amp; Spirits</h2>
+    <img class="venue-img" src="https://lh3.googleusercontent.com/d/1Q_io4QUgDS7iFB-K11RswSFqTWn0_-wN=w1948" alt="Community Wine &amp; Spirits" width="487" height="60">
     <a class="address" href="https://www.google.com/maps/search/?api=1&query=140+10th+Ave+New+York+NY+10011" target="_blank" rel="noopener">
       140 10th Avenue, New York, NY 10011
     </a>
     <div class="seatings">
       <span class="label">Two seatings</span>
-      <div class="times src">10:30 a.m. &amp; 1:00 p.m. <span class="pace">(taste at your own pace)</span></div>
+      <div class="times">10:30 a.m. &amp; 1:00 p.m. <span class="pace">(taste at your own pace)</span></div>
     </div>
   </section>
 
   <footer>
     <hr class="rule">
-    <span class="footer-brand src">THE SOURCE IMPORTS</span>
+    <span class="footer-brand">The Source Imports</span>
     <a class="footer-site" href="https://thesourceimports.com" target="_blank" rel="noopener">thesourceimports.com</a>
   </footer>
 
