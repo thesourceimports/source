@@ -1,0 +1,365 @@
+{
+  "title": "INSIDE SOURCE 2026",
+  "growers": [
+    {
+      "name": "Manuel Moldes",
+      "page": "https://thesourceimports.com/producers/manuel-moldes/",
+      "images": [
+        {
+          "source_url": "https://thesourceimports.com/wp-content/uploads/2020/07/Moldes1.jpg",
+          "local_file": "01-manuel-moldes-01.jpg",
+          "content_type": "image/jpeg",
+          "source_bytes": 341878,
+          "hosted_bytes": 347691,
+          "sha256": "920d7d366c33802d5582f0b3e09a75d5eed8463e2b8193655643704e87e636ea"
+        },
+        {
+          "source_url": "https://thesourceimports.com/wp-content/uploads/2020/07/moldes3.jpg",
+          "local_file": "01-manuel-moldes-02.jpg",
+          "content_type": "image/jpeg",
+          "source_bytes": 836760,
+          "hosted_bytes": 837508,
+          "sha256": "df1bea92fa570264fc7b02028a3d51e0198c62f676aa6dcf5562335b82e31c42"
+        },
+        {
+          "source_url": "https://thesourceimports.com/wp-content/uploads/2021/Resized/Moldes.jpg",
+          "local_file": "01-manuel-moldes-03.jpg",
+          "content_type": "image/jpeg",
+          "source_bytes": 250104,
+          "hosted_bytes": 285371,
+          "sha256": "4bdbed11b90eedb8031aab30cb7362e44d7c44a8959d6a47542a618f576d61fc"
+        }
+      ]
+    },
+    {
+      "name": "Pedro Méndez",
+      "page": "https://thesourceimports.com/producers/pedro-mendez/",
+      "images": [
+        {
+          "source_url": "https://thesourceimports.com/wp-content/uploads/2024/03/1A2A9777.jpeg",
+          "local_file": "02-pedro-mendez-01.jpg",
+          "content_type": "image/jpeg",
+          "source_bytes": 360114,
+          "hosted_bytes": 410082,
+          "sha256": "df5e8a0bf1124673b806d8f1e64301de5f163f0aaebcb54d86aac70a2d8e409e"
+        },
+        {
+          "source_url": "https://thesourceimports.com/wp-content/uploads/2024/03/pedro-mendez.jpeg",
+          "local_file": "02-pedro-mendez-02.jpg",
+          "content_type": "image/jpeg",
+          "source_bytes": 424725,
+          "hosted_bytes": 618221,
+          "sha256": "271c8f3a62a0d63d3f03eae03acb41d235449b140c37910b5a0e0c083bc97661"
+        },
+        {
+          "source_url": "https://thesourceimports.com/wp-content/uploads/2022/12/12-14/Pedro-Mendez3-sm.jpg",
+          "local_file": "02-pedro-mendez-03.jpg",
+          "content_type": "image/jpeg",
+          "source_bytes": 645025,
+          "hosted_bytes": 821557,
+          "sha256": "3e9e42f32414190e5d4035c1478e81e295f66f063d3588cf1a15023da63b5bf3"
+        }
+      ]
+    },
+    {
+      "name": "Aseginolaza y Leunda",
+      "page": "https://thesourceimports.com/producers/aseginolaza-y-leunda/",
+      "images": [
+        {
+          "source_url": "https://thesourceimports.com/wp-content/uploads/2025/09/Aseginolaza13.jpg",
+          "local_file": "03-aseginolaza-y-leunda-01.jpg",
+          "content_type": "image/jpeg",
+          "source_bytes": 876748,
+          "hosted_bytes": 384976,
+          "sha256": "cff055ced2ee170adc8cdbe47a30fe499f2e5eb77f63c5813ce43b12eb2bffee"
+        },
+        {
+          "source_url": "https://thesourceimports.com/wp-content/uploads/2025/09/Aseginolaza12.jpg",
+          "local_file": "03-aseginolaza-y-leunda-02.jpg",
+          "content_type": "image/jpeg",
+          "source_bytes": 1786110,
+          "hosted_bytes": 865789,
+          "sha256": "118ebf5a04eda7986874d36b53fdccd8df4c898a9d7069156afaaa83ef0a40a7"
+        },
+        {
+          "source_url": "https://thesourceimports.com/wp-content/uploads/2025/09/Aseginolaza9.jpg",
+          "local_file": "03-aseginolaza-y-leunda-03.jpg",
+          "content_type": "image/jpeg",
+          "source_bytes": 693753,
+          "hosted_bytes": 326661,
+          "sha256": "a05f6c326e3ecafe9a96b7c7ce14650637ab79223ee66f5c68ebd3aa4216ba9f"
+        }
+      ]
+    },
+    {
+      "name": "Quinta de San Michel",
+      "page": "https://thesourceimports.com/producers/quinta-de-san-michel/",
+      "images": [
+        {
+          "source_url": "https://thesourceimports.com/wp-content/uploads/2025/08/1A2A0826-scaled.jpeg",
+          "local_file": "04-quinta-de-san-michel-01.jpg",
+          "content_type": "image/jpeg",
+          "source_bytes": 423384,
+          "hosted_bytes": 369937,
+          "sha256": "6694ccac302c96cdfd5113373462ba4a47694d1a6164c03e0335a3237f45b088"
+        },
+        {
+          "source_url": "https://thesourceimports.com/wp-content/uploads/2025/08/1A2A0794-scaled.jpeg",
+          "local_file": "04-quinta-de-san-michel-02.jpg",
+          "content_type": "image/jpeg",
+          "source_bytes": 1140382,
+          "hosted_bytes": 890031,
+          "sha256": "700e19d4d9e2480d99f885952d5025966909d3b404d3ba617733a68bc37413b0"
+        },
+        {
+          "source_url": "https://thesourceimports.com/wp-content/uploads/2025/08/1A2A0804-scaled.jpeg",
+          "local_file": "04-quinta-de-san-michel-03.jpg",
+          "content_type": "image/jpeg",
+          "source_bytes": 1105725,
+          "hosted_bytes": 906277,
+          "sha256": "b3d9229dcf91fd22045ccd9c203bd9a96fe6d471db63e289686c900f1f769776"
+        }
+      ]
+    },
+    {
+      "name": "Vincent Bergeron",
+      "page": "https://thesourceimports.com/producers/vincent-bergeron/",
+      "images": [
+        {
+          "source_url": "https://thesourceimports.com/wp-content/uploads/2025/10/Vincent-Bergeron1.jpg",
+          "local_file": "05-vincent-bergeron-01.jpg",
+          "content_type": "image/jpeg",
+          "source_bytes": 471565,
+          "hosted_bytes": 349351,
+          "sha256": "79f5bae5a7473bf8d85126d5bd1b6d230b9934de26bfacac75ac38984a4260f3"
+        },
+        {
+          "source_url": "https://thesourceimports.com/wp-content/uploads/2025/09/Vincent-bergeron-1.jpg",
+          "local_file": "05-vincent-bergeron-02.jpg",
+          "content_type": "image/jpeg",
+          "source_bytes": 1774023,
+          "hosted_bytes": 901440,
+          "sha256": "f52c6bbffe60601e11a5db42b99c91c2a3c63b005727a9fa5bda443249f4f07d"
+        },
+        {
+          "source_url": "https://thesourceimports.com/wp-content/uploads/2022/12/12-15/Vincent%20Bergeron3-scaled.jpeg",
+          "local_file": "05-vincent-bergeron-03.jpg",
+          "content_type": "image/jpeg",
+          "source_bytes": 467388,
+          "hosted_bytes": 420868,
+          "sha256": "7d3051b961b809cce5902c16f2bb9cbfe360e24b94cae66e0e3ce46746a6f0c4"
+        }
+      ]
+    },
+    {
+      "name": "Bien de Altura",
+      "page": "https://thesourceimports.com/producers/bien-de-altura/",
+      "images": [
+        {
+          "source_url": "https://thesourceimports.com/wp-content/uploads/2024/07/1A2A1080-scaled.jpeg",
+          "local_file": "06-bien-de-altura-01.jpg",
+          "content_type": "image/jpeg",
+          "source_bytes": 430723,
+          "hosted_bytes": 382245,
+          "sha256": "2a87c8e16270bf7bae98724ac743deacbb1e91eb540a21dd689576a9282f7123"
+        },
+        {
+          "source_url": "https://thesourceimports.com/wp-content/uploads/2024/09/bien-de-altura.jpg",
+          "local_file": "06-bien-de-altura-02.jpg",
+          "content_type": "image/jpeg",
+          "source_bytes": 622259,
+          "hosted_bytes": 879538,
+          "sha256": "aff852144f93c774ffb060c893c8b4ce10c45aa664f1b70cd4dcaf873799c93c"
+        },
+        {
+          "source_url": "https://thesourceimports.com/wp-content/uploads/2024/07/1A2A1107-scaled.jpeg",
+          "local_file": "06-bien-de-altura-03.jpg",
+          "content_type": "image/jpeg",
+          "source_bytes": 487346,
+          "hosted_bytes": 430388,
+          "sha256": "d95659919590bee58fae7e9a3e52d974d1978d2235ae7f8295100ab877ff6467"
+        }
+      ]
+    },
+    {
+      "name": "Pablo Soldavini",
+      "page": "https://thesourceimports.com/producers/pablo-soldavini/",
+      "images": [
+        {
+          "source_url": "https://thesourceimports.com/wp-content/uploads/2024/03/1A2A9976-2.jpeg",
+          "local_file": "07-pablo-soldavini-01.jpg",
+          "content_type": "image/jpeg",
+          "source_bytes": 296726,
+          "hosted_bytes": 325566,
+          "sha256": "43c769db0082b77917e90c3528d60698a698f90e668abcb34a270e4a90541893"
+        },
+        {
+          "source_url": "https://thesourceimports.com/wp-content/uploads/2020/10/sainas11.jpg",
+          "local_file": "07-pablo-soldavini-02.jpg",
+          "content_type": "image/jpeg",
+          "source_bytes": 1002737,
+          "hosted_bytes": 987726,
+          "sha256": "a341deb4f1e3242f03e5d113b486100ffea631dfbb23ea1ca4d0b8c896647f27"
+        },
+        {
+          "source_url": "https://thesourceimports.com/wp-content/uploads/2025/09/1A2A9949.jpeg",
+          "local_file": "07-pablo-soldavini-03.jpg",
+          "content_type": "image/jpeg",
+          "source_bytes": 2418556,
+          "hosted_bytes": 625480,
+          "sha256": "35dde7142cc454489a1d45a0eb086545eb8c8014c94084dfab64fb3276f8b880"
+        }
+      ]
+    },
+    {
+      "name": "Mauro Marengo",
+      "page": "https://thesourceimports.com/producers/mauro-marengo/",
+      "images": [
+        {
+          "source_url": "https://thesourceimports.com/wp-content/uploads/2025/09/Marengo-1.jpg",
+          "local_file": "08-mauro-marengo-01.jpg",
+          "content_type": "image/jpeg",
+          "source_bytes": 1263070,
+          "hosted_bytes": 520295,
+          "sha256": "4c1eb9a753bf72dda8860d653dc443018e7e8be6575004626c6ca66aa02f1873"
+        },
+        {
+          "source_url": "https://thesourceimports.com/wp-content/uploads/2025/09/Marengo-3.jpg",
+          "local_file": "08-mauro-marengo-02.jpg",
+          "content_type": "image/jpeg",
+          "source_bytes": 457913,
+          "hosted_bytes": 314946,
+          "sha256": "02ecacec4d1b14a7203faaebe50fb22163869e19cd63235133abb5eb6cbdc84b"
+        },
+        {
+          "source_url": "https://thesourceimports.com/wp-content/uploads/2025/09/Marengo-5-scaled.jpg",
+          "local_file": "08-mauro-marengo-03.jpg",
+          "content_type": "image/jpeg",
+          "source_bytes": 838988,
+          "hosted_bytes": 718397,
+          "sha256": "1d771b9a0916da367e8d82a93a34f4283b22b726bcae0b54e3ae6cf4bbc8d643"
+        }
+      ]
+    },
+    {
+      "name": "David Fletcher",
+      "page": "https://thesourceimports.com/producers/david-fletcher/",
+      "images": [
+        {
+          "source_url": "https://thesourceimports.com/wp-content/uploads/2025/08/1A2A3629-scaled.jpeg",
+          "local_file": "09-david-fletcher-01.jpg",
+          "content_type": "image/jpeg",
+          "source_bytes": 377093,
+          "hosted_bytes": 323843,
+          "sha256": "f04272cdd0b8ae7b90b4ce901d752202e91d45a086d7436e0ea8a7905b425d4f"
+        },
+        {
+          "source_url": "https://thesourceimports.com/wp-content/uploads/2022/12/12-15/Fletcher2-scaled.jpeg",
+          "local_file": "09-david-fletcher-02.jpg",
+          "content_type": "image/jpeg",
+          "source_bytes": 499841,
+          "hosted_bytes": 438788,
+          "sha256": "ab93a2e76e496df717fedc0f6ef34ce6344cf9a312e195aa83b0e7e1c5dde39d"
+        },
+        {
+          "source_url": "https://thesourceimports.com/wp-content/uploads/2017/04/poderi-colla7.jpg",
+          "local_file": "09-david-fletcher-03.jpg",
+          "content_type": "image/jpeg",
+          "source_bytes": 864544,
+          "hosted_bytes": 864056,
+          "sha256": "e8634be66fddfd7446f8dace7f3799a651bdc2600032fb5660235a4e44af09d6"
+        }
+      ]
+    },
+    {
+      "name": "Rodolphe Demougeot",
+      "page": "https://thesourceimports.com/producers/rodolphe-demougeot/",
+      "images": [
+        {
+          "source_url": "https://thesourceimports.com/wp-content/uploads/2019/07/demougeot-land-1024x683.jpg",
+          "local_file": "10-rodolphe-demougeot-01.jpg",
+          "content_type": "image/jpeg",
+          "source_bytes": 194929,
+          "hosted_bytes": 206006,
+          "sha256": "5185f48586295afecc68089b17904b39ac5f5269dfe92136264a322024e429d8"
+        },
+        {
+          "source_url": "https://thesourceimports.com/wp-content/uploads/2019/07/demougeot-producer-1024x683.jpg",
+          "local_file": "10-rodolphe-demougeot-02.jpg",
+          "content_type": "image/jpeg",
+          "source_bytes": 89493,
+          "hosted_bytes": 95321,
+          "sha256": "81603dca21f77ea902947462370546f8ceae93d200e225af3135b64ab4ab47cb"
+        },
+        {
+          "source_url": "https://thesourceimports.com/wp-content/uploads/2019/08/Demougeot1-1024x683.jpg",
+          "local_file": "10-rodolphe-demougeot-03.jpg",
+          "content_type": "image/jpeg",
+          "source_bytes": 124730,
+          "hosted_bytes": 132711,
+          "sha256": "22135c816b695dc997ac1c480787d095f919391e990626446710aad5d2f89208"
+        }
+      ]
+    },
+    {
+      "name": "Domaine de la Lande",
+      "page": "https://thesourceimports.com/producers/domaine-de-la-lande/",
+      "images": [
+        {
+          "source_url": "https://thesourceimports.com/wp-content/uploads/2025/03/1A2A1439-scaled.jpeg",
+          "local_file": "11-domaine-de-la-lande-01.jpg",
+          "content_type": "image/jpeg",
+          "source_bytes": 498290,
+          "hosted_bytes": 432464,
+          "sha256": "345bc8536f048379d7808d56d26edbda09eaecf6081b84eb1a42c9d89fbed24e"
+        },
+        {
+          "source_url": "https://thesourceimports.com/wp-content/uploads/2025/09/Domaine-de-la-Lande-1.jpg",
+          "local_file": "11-domaine-de-la-lande-02.jpg",
+          "content_type": "image/jpeg",
+          "source_bytes": 1728786,
+          "hosted_bytes": 822054,
+          "sha256": "a4b3c68a19b3bca1096c4b363c70a9877746893d71550d7af5b3584bb92705a0"
+        },
+        {
+          "source_url": "https://thesourceimports.com/wp-content/uploads/2025/09/Domaine-de-la-Lande-2.jpg",
+          "local_file": "11-domaine-de-la-lande-03.jpg",
+          "content_type": "image/jpeg",
+          "source_bytes": 973555,
+          "hosted_bytes": 485230,
+          "sha256": "79ca69f7bf67af0550e8035610f233cd64de09647ef30c3c3107306137e48c6e"
+        }
+      ]
+    },
+    {
+      "name": "Anthony Thevenet",
+      "page": "https://thesourceimports.com/producers/anthony-thevenet/",
+      "images": [
+        {
+          "source_url": "https://thesourceimports.com/wp-content/uploads/2019/08/thevenet8.jpg",
+          "local_file": "12-anthony-thevenet-01.jpg",
+          "content_type": "image/jpeg",
+          "source_bytes": 263617,
+          "hosted_bytes": 270478,
+          "sha256": "a8330e81508157d503e49073c8f9b944d4c0ec16224c84e9e2d538392cb08d2f"
+        },
+        {
+          "source_url": "https://thesourceimports.com/wp-content/uploads/2019/08/thevenet9.jpg",
+          "local_file": "12-anthony-thevenet-02.jpg",
+          "content_type": "image/jpeg",
+          "source_bytes": 424168,
+          "hosted_bytes": 427933,
+          "sha256": "4c70421ca6875e703ab9572cb91e68f18b3f602bdf05300a2e06f286038dd331"
+        },
+        {
+          "source_url": "https://thesourceimports.com/wp-content/uploads/2019/08/thevenet2.jpg",
+          "local_file": "12-anthony-thevenet-03.jpg",
+          "content_type": "image/jpeg",
+          "source_bytes": 1155527,
+          "hosted_bytes": 1138906,
+          "sha256": "5bbef644031ebff2276c06915144820089f29232bc039a1ebab0e95e99ea66e6"
+        }
+      ]
+    }
+  ]
+}
