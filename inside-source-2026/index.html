@@ -28,10 +28,9 @@ button,a{-webkit-tap-highlight-color:transparent}
 .slide.active img{transform:scale(1.065)}
 .image-shade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.52) 0,rgba(0,0,0,.03) 28%,rgba(0,0,0,.08) 55%,rgba(0,0,0,.78) 100%)}
 .brand-lockup{position:absolute;z-index:5;top:clamp(20px,4vw,52px);left:clamp(20px,4vw,64px);pointer-events:none;font-size:clamp(18px,3vw,56px)}
-.lockup-row{display:flex;align-items:center;gap:clamp(12px,1.4vw,26px)}
 .brand-lockup .title{font-family:'The Source','EB Garamond',serif;font-size:1em;line-height:1;letter-spacing:.035em;color:#fff;white-space:nowrap;text-shadow:0 2px 22px rgba(0,0,0,.65)}
-.lockup-cross{font-family:'EB Garamond',serif;font-weight:300;font-size:.72em;line-height:1;color:#fff;opacity:.9;text-shadow:0 2px 22px rgba(0,0,0,.65)}
-.lemieux-logo{height:1.42em;width:auto;translate:0 .35em;filter:drop-shadow(0 2px 14px rgba(0,0,0,.6))}
+.lemieux-lockup{position:absolute;z-index:5;left:50%;bottom:clamp(80px,17vh,190px);transform:translateX(-50%);pointer-events:none}
+.lemieux-lockup img{height:clamp(26px,4vw,60px);width:auto;display:block;filter:drop-shadow(0 2px 6px rgba(0,0,0,.8)) drop-shadow(0 8px 28px rgba(0,0,0,.55))}
 .grower-label{position:absolute;left:clamp(20px,4vw,64px);right:130px;bottom:clamp(24px,5vw,58px);z-index:2}
 .grower-label a{display:inline-block;color:#fff;text-decoration:none;font-family:'The Source','EB Garamond',serif;font-size:clamp(36px,6vw,82px);font-weight:400;line-height:.92;letter-spacing:.02em;text-shadow:0 3px 30px rgba(0,0,0,.6)}
 .control{position:absolute;top:50%;translate:0 -50%;z-index:4;width:52px;height:74px;border:0;background:rgba(5,5,5,.28);color:#fff;font:300 34px/1 'EB Garamond',serif;cursor:pointer;backdrop-filter:blur(5px);transition:background .2s}
@@ -64,13 +63,8 @@ button,a{-webkit-tap-highlight-color:transparent}
 <body>
 <main class="carousel-shell" id="carousel">
   <div class="carousel-stage" aria-label="Grower photography carousel">
-    <div class="brand-lockup">
-      <div class="lockup-row">
-        <div class="title">The Source</div>
-        <div class="lockup-cross">×</div>
-        <img class="lemieux-logo" src="../images/inside-source-2026/lemieux-logo.png" alt="LeMieux Wine Co.">
-      </div>
-    </div>
+    <div class="brand-lockup"><div class="title">The Source</div></div>
+    <div class="lemieux-lockup" aria-hidden="true"><img src="../images/inside-source-2026/lemieux-logo.png" alt="LeMieux Wine Co."></div>
     <div class="track"><article class="slide" data-grower="0" data-image="0">
   <img src="../images/inside-source-2026/01-manuel-moldes-01.jpg" alt="Manuel Moldes, vineyard and cellar photography 1" loading="eager" decoding="async">
   <div class="image-shade"></div>
