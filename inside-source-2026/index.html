@@ -33,9 +33,6 @@ button,a{-webkit-tap-highlight-color:transparent}
 .lemieux-lockup img{height:clamp(16px,2.6vw,54px);width:auto;display:block;filter:drop-shadow(0 2px 6px rgba(0,0,0,.8)) drop-shadow(0 5px 18px rgba(0,0,0,.5))}
 .grower-label{position:absolute;left:clamp(20px,4vw,64px);right:130px;bottom:clamp(24px,5vw,58px);z-index:2}
 .grower-label a{display:inline-block;color:#fff;text-decoration:none;font-family:'The Source','EB Garamond',serif;font-size:clamp(36px,6vw,82px);font-weight:400;line-height:.92;letter-spacing:.02em;text-shadow:0 3px 30px rgba(0,0,0,.6)}
-.control{position:absolute;top:50%;translate:0 -50%;z-index:4;width:52px;height:74px;border:0;background:rgba(5,5,5,.28);color:#fff;font:300 34px/1 'EB Garamond',serif;cursor:pointer;backdrop-filter:blur(5px);transition:background .2s}
-.control:hover{background:rgba(5,5,5,.56)}
-.prev{left:0}.next{right:0}
 .motion-bar{position:absolute;z-index:4;right:clamp(20px,3vw,44px);bottom:clamp(24px,4vw,48px);display:flex;gap:8px}
 .motion-bar i{display:block;width:24px;height:2px;background:rgba(255,255,255,.35)}
 .motion-bar i.active{background:#fff}
@@ -44,7 +41,6 @@ button,a{-webkit-tap-highlight-color:transparent}
   .brand-lockup{font-size:clamp(40px,3vw,62px)}
   .grower-label{left:4vw;bottom:5vh}
   .grower-label a{font-size:clamp(72px,6vw,112px)}
-  .control{width:64px;height:92px;font-size:46px}
   .motion-bar{right:3vw;bottom:5vh}
   .motion-bar i{width:34px;height:3px}
 }
@@ -53,7 +49,6 @@ button,a{-webkit-tap-highlight-color:transparent}
   .brand-lockup{font-size:clamp(17px,5.6vw,28px)}
   .grower-label{right:70px;left:20px;bottom:26px}
   .grower-label a{font-size:clamp(34px,11vw,58px)}
-  .control{width:40px;height:60px;font-size:28px}
   .motion-bar{right:18px;bottom:18px;gap:5px}
   .motion-bar i{width:15px}
   .lemieux-lockup{bottom:6px}
@@ -319,35 +314,23 @@ button,a{-webkit-tap-highlight-color:transparent}
     <a href="https://thesourceimports.com/producers/anthony-thevenet/" target="_blank" rel="noopener">Anthony Thevenet</a>
   </div>
 </article></div>
-    <button class="control prev" type="button" aria-label="Previous image">‹</button>
-    <button class="control next" type="button" aria-label="Next image">›</button>
     <div class="motion-bar" aria-hidden="true"><i></i><i></i><i></i></div>
   </div>
 </main>
 <script>
-const stage=document.querySelector('.carousel-stage');
 const slides=[...document.querySelectorAll('.slide')];
 const total=slides.length;
-let index=0,timer=null,resumeTimer=null,startX=null;
+let index=0,timer=null;
 const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
 const ticks=[...document.querySelectorAll('.motion-bar i')];
 function sync(){
   slides.forEach((s,i)=>s.classList.toggle('active',i===index));
   ticks.forEach((t,i)=>t.classList.toggle('active',i===index%3));
 }
-function next(auto=false){index=(index+1)%total;sync();if(auto===false)delayResume()}
-function prev(){index=(index-1+total)%total;sync();delayResume()}
-function play(){if(reduced)return;stop();timer=setInterval(()=>next(true),4600)}
+function next(){index=(index+1)%total;sync()}
+function play(){if(reduced)return;stop();timer=setInterval(()=>next(),4600)}
 function stop(){if(timer)clearInterval(timer);timer=null}
-function delayResume(){stop();if(resumeTimer)clearTimeout(resumeTimer);resumeTimer=setTimeout(play,8000)}
-document.querySelector('.next').addEventListener('click',()=>next(false));
-document.querySelector('.prev').addEventListener('click',prev);
-stage.addEventListener('pointerdown',e=>{startX=e.clientX;stage.setPointerCapture(e.pointerId);stop()});
-stage.addEventListener('pointerup',e=>{if(startX!==null){const dx=e.clientX-startX;if(Math.abs(dx)>45)dx<0?next(false):prev();else delayResume()}startX=null});
-stage.addEventListener('pointercancel',()=>{startX=null;delayResume()});
-stage.addEventListener('mouseenter',stop);stage.addEventListener('mouseleave',play);
 document.addEventListener('visibilitychange',()=>document.hidden?stop():play());
-document.addEventListener('keydown',e=>{if(e.key==='ArrowRight')next(false);if(e.key==='ArrowLeft')prev()});
 sync();play();
 </script>
 </body>
