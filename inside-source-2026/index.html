@@ -36,6 +36,14 @@ button,a{-webkit-tap-highlight-color:transparent}
 .motion-bar{position:absolute;z-index:4;right:clamp(20px,3vw,44px);bottom:clamp(24px,4vw,48px);display:flex;gap:8px}
 .motion-bar i{display:block;width:24px;height:2px;background:rgba(255,255,255,.35)}
 .motion-bar i.active{background:#fff}
+.fs-btn{position:absolute;z-index:8;top:clamp(16px,3vw,36px);right:clamp(16px,3vw,36px);width:44px;height:44px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.28);border-radius:50%;cursor:pointer;opacity:.45;transition:opacity .3s ease,background .3s ease,border-color .3s ease}
+.fs-btn:hover,.fs-btn:focus-visible{opacity:1;background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.55);outline:none}
+.fs-btn svg{width:19px;height:19px;stroke:#fff;stroke-width:1.6;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.fs-btn .icon-compress{display:none}
+body:fullscreen .fs-btn .icon-expand,body:-webkit-full-screen .fs-btn .icon-expand{display:none}
+body:fullscreen .fs-btn .icon-compress,body:-webkit-full-screen .fs-btn .icon-compress{display:block}
+body:fullscreen .fs-btn,body:-webkit-full-screen .fs-btn{opacity:.3}
+body:fullscreen .fs-btn:hover,body:-webkit-full-screen .fs-btn:hover{opacity:1}
 @media(min-width:1200px){
   .brand-lockup{top:5vh;left:4vw}
   .brand-lockup{font-size:clamp(40px,3vw,62px)}
@@ -315,6 +323,10 @@ button,a{-webkit-tap-highlight-color:transparent}
   </div>
 </article></div>
     <div class="motion-bar" aria-hidden="true"><i></i><i></i><i></i></div>
+    <button id="fsBtn" class="fs-btn" type="button" aria-label="Toggle fullscreen" title="Fullscreen">
+      <svg class="icon-expand" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg>
+      <svg class="icon-compress" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 4v5H4M15 4v5h5M9 20v-5H4M15 20v-5h5"/></svg>
+    </button>
   </div>
 </main>
 <script>
@@ -332,6 +344,21 @@ function play(){if(reduced)return;stop();timer=setInterval(()=>next(),4600)}
 function stop(){if(timer)clearInterval(timer);timer=null}
 document.addEventListener('visibilitychange',()=>document.hidden?stop():play());
 sync();play();
+// fullscreen toggle
+const fsBtn=document.getElementById('fsBtn');
+fsBtn.addEventListener('click',()=>{
+  const el=document.documentElement;
+  if(!document.fullscreenElement&&!document.webkitFullscreenElement){
+    if(el.requestFullscreen){el.requestFullscreen({navigationUI:'hide'}).catch(()=>{});}
+    else if(el.webkitRequestFullscreen){el.webkitRequestFullscreen();}
+  }else{
+    if(document.exitFullscreen){document.exitFullscreen().catch(()=>{});}
+    else if(document.webkitExitFullscreen){document.webkitExitFullscreen();}
+  }
+});
+document.addEventListener('fullscreenchange',()=>{
+  document.body.classList.toggle('fs-on',!!(document.fullscreenElement||document.webkitFullscreenElement));
+});
 </script>
 </body>
 </html>
