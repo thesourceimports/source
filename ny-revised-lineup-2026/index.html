@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>The Source x Inside Source NYC</title>
+<meta name="description" content="The Source x Inside Source NYC grower presentation.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+@font-face {
+  font-family:'The Source';
+  src:local('The Source 4 Regular'),local('TheSource4-Regular'),local('The Source'),local('TheSource'),url('https://thesourceimports.com/fonts/TheSource4-Regular%202.ttf') format('truetype');
+  font-weight:400;font-style:normal;font-display:swap;
+}
+:root{--bg:#050505;--ink:#fff;--gold:#b39668}
+*{box-sizing:border-box}
+html,body{width:100%;height:100%;margin:0;overflow:hidden;background:var(--bg)}
+body{color:var(--ink);font-family:'EB Garamond',Garamond,serif;-webkit-font-smoothing:antialiased}
+button,a{-webkit-tap-highlight-color:transparent}
+.carousel-shell,.carousel-stage{position:relative;width:100%;height:100vh;height:100svh;height:100dvh;overflow:hidden;background:#111}
+.carousel-stage{touch-action:pan-y}
+.track{position:absolute;inset:0}
+.slide{position:absolute;inset:0;overflow:hidden;opacity:0;z-index:1;pointer-events:none;transition:opacity 1500ms ease;will-change:opacity}
+.slide img{position:absolute;inset:-2%;width:104%;height:104%;object-fit:cover;object-position:center;transform:scale(1.015);filter:saturate(.93) contrast(1.03);transition:transform 7s ease}
+.slide.active{z-index:2;opacity:1;pointer-events:auto}
+.slide.active img{transform:scale(1.065)}
+.image-shade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.52) 0,rgba(0,0,0,.03) 28%,rgba(0,0,0,.08) 55%,rgba(0,0,0,.78) 100%)}
+.brand-lockup{position:absolute;z-index:5;top:clamp(20px,4vw,52px);left:clamp(20px,4vw,64px);pointer-events:none;font-size:clamp(18px,3vw,56px)}
+.brand-lockup .title{font-family:'The Source','EB Garamond',serif;font-size:1em;line-height:1;letter-spacing:.035em;color:#fff;white-space:nowrap;text-shadow:0 2px 22px rgba(0,0,0,.65)}
+.is-lockup{position:absolute;z-index:5;left:50%;bottom:clamp(8px,1.4vh,14px);transform:translateX(-50%);pointer-events:none}
+.is-lockup img{height:clamp(16px,2.6vw,54px);width:auto;display:block;filter:drop-shadow(0 2px 6px rgba(0,0,0,.8)) drop-shadow(0 5px 18px rgba(0,0,0,.5))}
+.grower-label{position:absolute;left:clamp(20px,4vw,64px);right:130px;bottom:clamp(38px,6.5vw,76px);z-index:2}
+.grower-label a{display:inline-block;color:#fff;text-decoration:none;font-family:'The Source','EB Garamond',serif;font-size:clamp(36px,6vw,82px);font-weight:400;line-height:.92;letter-spacing:.02em;text-shadow:0 3px 30px rgba(0,0,0,.6)}
+.motion-bar{position:absolute;z-index:4;right:clamp(20px,3vw,44px);bottom:clamp(24px,4vw,48px);display:flex;gap:8px}
+.motion-bar i{display:block;width:24px;height:2px;background:rgba(255,255,255,.35)}
+.motion-bar i.active{background:#fff}
+.fs-btn{position:absolute;z-index:8;top:clamp(16px,3vw,36px);right:clamp(16px,3vw,36px);width:44px;height:44px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.28);border-radius:50%;cursor:pointer;opacity:.45;transition:opacity .3s ease,background .3s ease,border-color .3s ease}
+.fs-btn:hover,.fs-btn:focus-visible{opacity:1;background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.55);outline:none}
+.fs-btn svg{width:19px;height:19px;stroke:#fff;stroke-width:1.6;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.fs-btn .icon-compress{display:none}
+body:fullscreen .fs-btn .icon-expand,body:-webkit-full-screen .fs-btn .icon-expand{display:none}
+body:fullscreen .fs-btn .icon-compress,body:-webkit-full-screen .fs-btn .icon-compress{display:block}
+body:fullscreen .fs-btn,body:-webkit-full-screen .fs-btn{opacity:.3}
+body:fullscreen .fs-btn:hover,body:-webkit-full-screen .fs-btn:hover{opacity:1}
+@media(min-width:1200px){
+  .brand-lockup{top:5vh;left:4vw}
+  .brand-lockup{font-size:clamp(40px,3vw,62px)}
+  .grower-label{left:4vw;bottom:8vh}
+  .grower-label a{font-size:clamp(72px,6vw,112px)}
+  .motion-bar{right:3vw;bottom:5vh}
+  .motion-bar i{width:34px;height:3px}
+}
+@media(max-width:760px){
+  .brand-lockup{top:22px;left:20px}
+  .brand-lockup{font-size:clamp(17px,5.6vw,28px)}
+  .grower-label{right:70px;left:20px;bottom:42px}
+  .grower-label a{font-size:clamp(34px,11vw,58px)}
+  .motion-bar{right:18px;bottom:18px;gap:5px}
+  .motion-bar i{width:15px}
+  .is-lockup{bottom:6px}
+  .is-lockup img{height:clamp(14px,5.5vw,24px)}
+}
+@media(prefers-reduced-motion:reduce){.slide,.slide img{transition:none!important}}
+</style>
+</head>
+<body>
+<main class="carousel-shell" id="carousel">
+  <div class="carousel-stage" aria-label="Grower photography carousel">
+    <div class="brand-lockup"><div class="title">The Source</div></div>
+    <div class="is-lockup" aria-hidden="true"><img src="../images/ny-revised-lineup-2026/inside-source-logo.png" alt="Inside Source"></div>
+    <div class="track"><article class="slide" data-grower="0" data-image="0">
+  <img src="../images/ny-revised-lineup-2026/01-xesteirina-01.jpg" alt="Xesteiriña, vineyard and cellar photography 1" loading="eager" decoding="async">
+  <div class="image-shade"></div>
+  <div class="grower-label">
+    <a href="https://thesourceimports.com/producers/acios-da-xesteirina/" target="_blank" rel="noopener">Xesteiriña</a>
+  </div>
+</article>
+<article class="slide" data-grower="0" data-image="1">
+  <img src="../images/ny-revised-lineup-2026/01-xesteirina-02.jpg" alt="Xesteiriña, vineyard and cellar photography 2" loading="lazy" decoding="async">
+  <div class="image-shade"></div>
+  <div class="grower-label">
+    <a href="https://thesourceimports.com/producers/acios-da-xesteirina/" target="_blank" rel="noopener">Xesteiriña</a>
+  </div>
+</article>
+<article class="slide" data-grower="0" data-image="2">
+  <img src="../images/ny-revised-lineup-2026/01-xesteirina-03.jpg" alt="Xesteiriña, vineyard and cellar photography 3" loading="lazy" decoding="async">
+  <div class="image-shade"></div>
+  <div class="grower-label">
+    <a href="https://thesourceimports.com/producers/acios-da-xesteirina/" target="_blank" rel="noopener">Xesteiriña</a>
+  </div>
+</article>
+<article class="slide" data-grower="1" data-image="0">
+  <img src="../images/ny-revised-lineup-2026/02-pedro-mendez-01.jpg" alt="Pedro Méndez, vineyard and cellar photography 1" loading="lazy" decoding="async">
+  <div class="image-shade"></div>
+  <div class="grower-label">
+    <a href="https://thesourceimports.com/producers/pedro-mendez/" target="_blank" rel="noopener">Pedro Méndez</a>
+  </div>
+</article>
+<article class="slide" data-grower="1" data-image="1">
+  <img src="../images/ny-revised-lineup-2026/02-pedro-mendez-02.jpg" alt="Pedro Méndez, vineyard and cellar photography 2" loading="lazy" decoding="async">
+  <div class="image-shade"></div>
+  <div class="grower-label">
+    <a href="https://thesourceimports.com/producers/pedro-mendez/" target="_blank" rel="noopener">Pedro Méndez</a>
+  </div>
+</article>
+<article class="slide" data-grower="1" data-image="2">
+  <img src="../images/ny-revised-lineup-2026/02-pedro-mendez-03.jpg" alt="Pedro Méndez, vineyard and cellar photography 3" loading="lazy" decoding="async">
+  <div class="image-shade"></div>
+  <div class="grower-label">
+    <a href="https://thesourceimports.com/producers/pedro-mendez/" target="_blank" rel="noopener">Pedro Méndez</a>
+  </div>
+</article>
+<article class="slide" data-grower="2" data-image="0">
+  <img src="../images/ny-revised-lineup-2026/03-augalevada-01.jpg" alt="Augalevada, vineyard and cellar photography 1" loading="lazy" decoding="async">
+  <div class="image-shade"></div>
+  <div class="grower-label">
+    <a href="https://thesourceimports.com/producers/fazenda-augalevada/" target="_blank" rel="noopener">Augalevada</a>
+  </div>
+</article>
+<article class="slide" data-grower="2" data-image="1">
+  <img src="../images/ny-revised-lineup-2026/03-augalevada-02.jpg" alt="Augalevada, vineyard and cellar photography 2" loading="lazy" decoding="async">
+  <div class="image-shade"></div>
+  <div class="grower-label">
+    <a href="https://thesourceimports.com/producers/fazenda-augalevada/" target="_blank" rel="noopener">Augalevada</a>
+  </div>
+</article>
+<article class="slide" data-grower="2" data-image="2">
+  <img src="../images/ny-revised-lineup-2026/03-augalevada-03.jpg" alt="Augalevada, vineyard and cellar photography 3" loading="lazy" decoding="async">
+  <div class="image-shade"></div>
+  <div class="grower-label">
+    <a href="https://thesourceimports.com/producers/fazenda-augalevada/" target="_blank" rel="noopener">Augalevada</a>
+  </div>
+</article>
+<article class="slide" data-grower="3" data-image="0">
+  <img src="../images/ny-revised-lineup-2026/04-quinta-de-san-michel-01.jpg" alt="Quinta de San Michel, vineyard and cellar photography 1" loading="lazy" decoding="async">
+  <div class="image-shade"></div>
+  <div class="grower-label">
+    <a href="https://thesourceimports.com/producers/quinta-de-san-michel/" target="_blank" rel="noopener">Quinta de San Michel</a>
+  </div>
+</article>
+<article class="slide" data-grower="3" data-image="1">
+  <img src="../images/ny-revised-lineup-2026/04-quinta-de-san-michel-02.jpg" alt="Quinta de San Michel, vineyard and cellar photography 2" loading="lazy" decoding="async">
+  <div class="image-shade"></div>
+  <div class="grower-label">
+    <a href="https://thesourceimports.com/producers/quinta-de-san-michel/" target="_blank" rel="noopener">Quinta de San Michel</a>
+  </div>
+</article>
+<article class="slide" data-grower="3" data-image="2">
+  <img src="../images/ny-revised-lineup-2026/04-quinta-de-san-michel-03.jpg" alt="Quinta de San Michel, vineyard and cellar photography 3" loading="lazy" decoding="async">
+  <div class="image-shade"></div>
+  <div class="grower-label">
+    <a href="https://thesourceimports.com/producers/quinta-de-san-michel/" target="_blank" rel="noopener">Quinta de San Michel</a>
+  </div>
+</article>
+<article class="slide" data-grower="4" data-image="0">
+  <img src="../images/ny-revised-lineup-2026/05-vincent-bergeron-01.jpg" alt="Vincent Bergeron, vineyard and cellar photography 1" loading="lazy" decoding="async">
+  <div class="image-shade"></div>
+  <div class="grower-label">
+    <a href="https://thesourceimports.com/producers/vincent-bergeron/" target="_blank" rel="noopener">Vincent Bergeron</a>
+  </div>
+</article>
+<article class="slide" data-grower="4" data-image="1">
+  <img src="../images/ny-revised-lineup-2026/05-vincent-bergeron-02.jpg" alt="Vincent Bergeron, vineyard and cellar photography 2" loading="lazy" decoding="async">
+  <div class="image-shade"></div>
+  <div class="grower-label">
+    <a href="https://thesourceimports.com/producers/vincent-bergeron/" target="_blank" rel="noopener">Vincent Bergeron</a>
+  </div>
+</article>
+<article class="slide" data-grower="4" data-image="2">
+  <img src="../images/ny-revised-lineup-2026/05-vincent-bergeron-03.jpg" alt="Vincent Bergeron, vineyard and cellar photography 3" loading="lazy" decoding="async">
+  <div class="image-shade"></div>
+  <div class="grower-label">
+    <a href="https://thesourceimports.com/producers/vincent-bergeron/" target="_blank" rel="noopener">Vincent Bergeron</a>
+  </div>
+</article>
+<article class="slide" data-grower="5" data-image="0">
+  <img src="../images/ny-revised-lineup-2026/06-sadon-huguet-01.jpg" alt="Sadon Huguet, vineyard and cellar photography 1" loading="lazy" decoding="async">
+  <div class="image-shade"></div>
+  <div class="grower-label">
+    <a href="https://thesourceimports.com/producers/sadon-huguet/" target="_blank" rel="noopener">Sadon Huguet</a>
+  </div>
+</article>
+<article class="slide" data-grower="5" data-image="1">
+  <img src="../images/ny-revised-lineup-2026/06-sadon-huguet-02.jpg" alt="Sadon Huguet, vineyard and cellar photography 2" loading="lazy" decoding="async">
+  <div class="image-shade"></div>
+  <div class="grower-label">
+    <a href="https://thesourceimports.com/producers/sadon-huguet/" target="_blank" rel="noopener">Sadon Huguet</a>
+  </div>
+</article>
+<article class="slide" data-grower="5" data-image="2">
+  <img src="../images/ny-revised-lineup-2026/06-sadon-huguet-03.jpg" alt="Sadon Huguet, vineyard and cellar photography 3" loading="lazy" decoding="async">
+  <div class="image-shade"></div>
+  <div class="grower-label">
+    <a href="https://thesourceimports.com/producers/sadon-huguet/" target="_blank" rel="noopener">Sadon Huguet</a>
+  </div>
+</article>
+<article class="slide" data-grower="6" data-image="0">
+  <img src="../images/ny-revised-lineup-2026/07-hunter-mckirdy-01.jpg" alt="Hunter McKirdy, vineyard and cellar photography 1" loading="lazy" decoding="async">
+  <div class="image-shade"></div>
+  <div class="grower-label">
+    <a href="https://thesourceimports.com/producers/hunter-mckirdy/" target="_blank" rel="noopener">Hunter McKirdy</a>
+  </div>
+</article>
+<article class="slide" data-grower="6" data-image="1">
+  <img src="../images/ny-revised-lineup-2026/07-hunter-mckirdy-02.jpg" alt="Hunter McKirdy, vineyard and cellar photography 2" loading="lazy" decoding="async">
+  <div class="image-shade"></div>
+  <div class="grower-label">
+    <a href="https://thesourceimports.com/producers/hunter-mckirdy/" target="_blank" rel="noopener">Hunter McKirdy</a>
+  </div>
+</article>
+<article class="slide" data-grower="6" data-image="2">
+  <img src="../images/ny-revised-lineup-2026/07-hunter-mckirdy-03.jpg" alt="Hunter McKirdy, vineyard and cellar photography 3" loading="lazy" decoding="async">
+  <div class="image-shade"></div>
+  <div class="grower-label">
+    <a href="https://thesourceimports.com/producers/hunter-mckirdy/" target="_blank" rel="noopener">Hunter McKirdy</a>
+  </div>
+</article>
+<article class="slide" data-grower="7" data-image="0">
+  <img src="../images/ny-revised-lineup-2026/08-chantal-lescure-01.jpg" alt="Chantal Lescure, vineyard and cellar photography 1" loading="lazy" decoding="async">
+  <div class="image-shade"></div>
+  <div class="grower-label">
+    <a href="https://thesourceimports.com/producers/chantal-lescure/" target="_blank" rel="noopener">Chantal Lescure</a>
+  </div>
+</article>
+<article class="slide" data-grower="7" data-image="1">
+  <img src="../images/ny-revised-lineup-2026/08-chantal-lescure-02.jpg" alt="Chantal Lescure, vineyard and cellar photography 2" loading="lazy" decoding="async">
+  <div class="image-shade"></div>
+  <div class="grower-label">
+    <a href="https://thesourceimports.com/producers/chantal-lescure/" target="_blank" rel="noopener">Chantal Lescure</a>
+  </div>
+</article>
+<article class="slide" data-grower="7" data-image="2">
+  <img src="../images/ny-revised-lineup-2026/08-chantal-lescure-03.jpg" alt="Chantal Lescure, vineyard and cellar photography 3" loading="lazy" decoding="async">
+  <div class="image-shade"></div>
+  <div class="grower-label">
+    <a href="https://thesourceimports.com/producers/chantal-lescure/" target="_blank" rel="noopener">Chantal Lescure</a>
+  </div>
+</article>
+<article class="slide" data-grower="8" data-image="0">
+  <img src="../images/ny-revised-lineup-2026/09-bien-de-altura-01.jpg" alt="Bien de Altura, vineyard and cellar photography 1" loading="lazy" decoding="async">
+  <div class="image-shade"></div>
+  <div class="grower-label">
+    <a href="https://thesourceimports.com/producers/bien-de-altura/" target="_blank" rel="noopener">Bien de Altura</a>
+  </div>
+</article>
+<article class="slide" data-grower="8" data-image="1">
+  <img src="../images/ny-revised-lineup-2026/09-bien-de-altura-02.jpg" alt="Bien de Altura, vineyard and cellar photography 2" loading="lazy" decoding="async">
+  <div class="image-shade"></div>
+  <div class="grower-label">
+    <a href="https://thesourceimports.com/producers/bien-de-altura/" target="_blank" rel="noopener">Bien de Altura</a>
+  </div>
+</article>
+<article class="slide" data-grower="8" data-image="2">
+  <img src="../images/ny-revised-lineup-2026/09-bien-de-altura-03.jpg" alt="Bien de Altura, vineyard and cellar photography 3" loading="lazy" decoding="async">
+  <div class="image-shade"></div>
+  <div class="grower-label">
+    <a href="https://thesourceimports.com/producers/bien-de-altura/" target="_blank" rel="noopener">Bien de Altura</a>
+  </div>
+</article>
+<article class="slide" data-grower="9" data-image="0">
+  <img src="../images/ny-revised-lineup-2026/10-i-fabbri-01.jpg" alt="I Fabbri, vineyard and cellar photography 1" loading="lazy" decoding="async">
+  <div class="image-shade"></div>
+  <div class="grower-label">
+    <a href="https://thesourceimports.com/producers/i-fabbri/" target="_blank" rel="noopener">I Fabbri</a>
+  </div>
+</article>
+<article class="slide" data-grower="9" data-image="1">
+  <img src="../images/ny-revised-lineup-2026/10-i-fabbri-02.jpg" alt="I Fabbri, vineyard and cellar photography 2" loading="lazy" decoding="async">
+  <div class="image-shade"></div>
+  <div class="grower-label">
+    <a href="https://thesourceimports.com/producers/i-fabbri/" target="_blank" rel="noopener">I Fabbri</a>
+  </div>
+</article>
+<article class="slide" data-grower="9" data-image="2">
+  <img src="../images/ny-revised-lineup-2026/10-i-fabbri-03.jpg" alt="I Fabbri, vineyard and cellar photography 3" loading="lazy" decoding="async">
+  <div class="image-shade"></div>
+  <div class="grower-label">
+    <a href="https://thesourceimports.com/producers/i-fabbri/" target="_blank" rel="noopener">I Fabbri</a>
+  </div>
+</article>
+<article class="slide" data-grower="10" data-image="0">
+  <img src="../images/ny-revised-lineup-2026/11-david-fletcher-01.jpg" alt="David Fletcher, vineyard and cellar photography 1" loading="lazy" decoding="async">
+  <div class="image-shade"></div>
+  <div class="grower-label">
+    <a href="https://thesourceimports.com/producers/david-fletcher/" target="_blank" rel="noopener">David Fletcher</a>
+  </div>
+</article>
+<article class="slide" data-grower="10" data-image="1">
+  <img src="../images/ny-revised-lineup-2026/11-david-fletcher-02.jpg" alt="David Fletcher, vineyard and cellar photography 2" loading="lazy" decoding="async">
+  <div class="image-shade"></div>
+  <div class="grower-label">
+    <a href="https://thesourceimports.com/producers/david-fletcher/" target="_blank" rel="noopener">David Fletcher</a>
+  </div>
+</article>
+<article class="slide" data-grower="10" data-image="2">
+  <img src="../images/ny-revised-lineup-2026/11-david-fletcher-03.jpg" alt="David Fletcher, vineyard and cellar photography 3" loading="lazy" decoding="async">
+  <div class="image-shade"></div>
+  <div class="grower-label">
+    <a href="https://thesourceimports.com/producers/david-fletcher/" target="_blank" rel="noopener">David Fletcher</a>
+  </div>
+</article>
+<article class="slide" data-grower="11" data-image="0">
+  <img src="../images/ny-revised-lineup-2026/12-vizinho-vinhateiro-01.jpg" alt="Vizinho Vinhateiro, vineyard and cellar photography 1" loading="lazy" decoding="async">
+  <div class="image-shade"></div>
+  <div class="grower-label">
+    <a href="https://thesourceimports.com/producers/vizinho-vinhateiro/" target="_blank" rel="noopener">Vizinho Vinhateiro</a>
+  </div>
+</article>
+<article class="slide" data-grower="11" data-image="1">
+  <img src="../images/ny-revised-lineup-2026/12-vizinho-vinhateiro-02.jpg" alt="Vizinho Vinhateiro, vineyard and cellar photography 2" loading="lazy" decoding="async">
+  <div class="image-shade"></div>
+  <div class="grower-label">
+    <a href="https://thesourceimports.com/producers/vizinho-vinhateiro/" target="_blank" rel="noopener">Vizinho Vinhateiro</a>
+  </div>
+</article>
+<article class="slide" data-grower="11" data-image="2">
+  <img src="../images/ny-revised-lineup-2026/12-vizinho-vinhateiro-03.jpg" alt="Vizinho Vinhateiro, vineyard and cellar photography 3" loading="lazy" decoding="async">
+  <div class="image-shade"></div>
+  <div class="grower-label">
+    <a href="https://thesourceimports.com/producers/vizinho-vinhateiro/" target="_blank" rel="noopener">Vizinho Vinhateiro</a>
+  </div>
+</article>
+<article class="slide" data-grower="12" data-image="0">
+  <img src="../images/ny-revised-lineup-2026/13-les-infiltres-01.jpg" alt="Les Infiltrés, vineyard and cellar photography 1" loading="lazy" decoding="async">
+  <div class="image-shade"></div>
+  <div class="grower-label">
+    <a href="https://thesourceimports.com/producers/les-infiltres/" target="_blank" rel="noopener">Les Infiltrés</a>
+  </div>
+</article>
+<article class="slide" data-grower="12" data-image="1">
+  <img src="../images/ny-revised-lineup-2026/13-les-infiltres-02.jpg" alt="Les Infiltrés, vineyard and cellar photography 2" loading="lazy" decoding="async">
+  <div class="image-shade"></div>
+  <div class="grower-label">
+    <a href="https://thesourceimports.com/producers/les-infiltres/" target="_blank" rel="noopener">Les Infiltrés</a>
+  </div>
+</article>
+<article class="slide" data-grower="12" data-image="2">
+  <img src="../images/ny-revised-lineup-2026/13-les-infiltres-03.jpg" alt="Les Infiltrés, vineyard and cellar photography 3" loading="lazy" decoding="async">
+  <div class="image-shade"></div>
+  <div class="grower-label">
+    <a href="https://thesourceimports.com/producers/les-infiltres/" target="_blank" rel="noopener">Les Infiltrés</a>
+  </div>
+</article></div>
+    <div class="motion-bar" aria-hidden="true"><i></i><i></i><i></i></div>
+    <button id="fsBtn" class="fs-btn" type="button" aria-label="Toggle fullscreen" title="Fullscreen">
+      <svg class="icon-expand" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg>
+      <svg class="icon-compress" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 4v5H4M15 4v5h5M9 20v-5H4M15 20v-5h5"/></svg>
+    </button>
+  </div>
+</main>
+<script>
+const slides=[...document.querySelectorAll('.slide')];
+const total=slides.length;
+let index=0,timer=null;
+const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const ticks=[...document.querySelectorAll('.motion-bar i')];
+function sync(){
+  slides.forEach((s,i)=>s.classList.toggle('active',i===index));
+  ticks.forEach((t,i)=>t.classList.toggle('active',i===index%3));
+}
+function next(){index=(index+1)%total;sync()}
+function play(){if(reduced)return;stop();timer=setInterval(()=>next(),4600)}
+function stop(){if(timer)clearInterval(timer);timer=null}
+document.addEventListener('visibilitychange',()=>document.hidden?stop():play());
+sync();play();
+const fsBtn=document.getElementById('fsBtn');
+fsBtn.addEventListener('click',()=>{
+  const el=document.documentElement;
+  if(!document.fullscreenElement&&!document.webkitFullscreenElement){
+    if(el.requestFullscreen){el.requestFullscreen({navigationUI:'hide'}).catch(()=>{});}
+    else if(el.webkitRequestFullscreen){el.webkitRequestFullscreen();}
+  }else{
+    if(document.exitFullscreen){document.exitFullscreen().catch(()=>{});}
+    else if(document.webkitExitFullscreen){document.webkitExitFullscreen();}
+  }
+});
+document.addEventListener('fullscreenchange',()=>{
+  document.body.classList.toggle('fs-on',!!(document.fullscreenElement||document.webkitFullscreenElement));
+});
+</script>
+</body>
+</html>
