@@ -40,6 +40,45 @@
     position: fixed; inset: 0; display: flex; align-items: center; justify-content: center;
     color: #f4f1ea; font-family: Georgia, serif; font-size: 15px; background: #0b1114; z-index: 20;
   }
+
+  /* place markers - radar-ping pulse + clickable title */
+  #markerLayer { position: fixed; inset: 0; pointer-events: none; z-index: 5; }
+  .place-marker {
+    position: absolute; left: 0; top: 0; pointer-events: auto; cursor: pointer;
+    display: flex; flex-direction: column; align-items: center; transform: translate(-50%, -100%);
+  }
+  .place-marker .label {
+    font-family: 'EB Garamond', Georgia, serif; color: #f4f1ea; font-size: 13px;
+    letter-spacing: 0.02em; white-space: nowrap; margin-bottom: 5px;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.9), 0 0 6px rgba(0,0,0,0.6);
+    padding: 1px 6px; border-radius: 3px; background: rgba(10,14,16,0.35);
+    transition: background 0.15s;
+  }
+  .place-marker:hover .label { background: rgba(59,95,69,0.75); }
+  .place-marker .radar {
+    position: relative; width: 10px; height: 10px;
+  }
+  .place-marker .radar .dot {
+    position: absolute; left: 50%; top: 50%; width: 7px; height: 7px; margin: -3.5px 0 0 -3.5px;
+    border-radius: 50%; background: #ffd37a; box-shadow: 0 0 5px rgba(255,211,122,0.95);
+  }
+  .place-marker .radar .ring {
+    position: absolute; left: 50%; top: 50%; width: 10px; height: 10px; margin: -5px 0 0 -5px;
+    border-radius: 50%; border: 1.5px solid #ffd37a; opacity: 0;
+    animation: radarPing 2.2s ease-out infinite;
+  }
+  .place-marker .radar .ring.r2 { animation-delay: 0.7s; }
+  .place-marker .radar .ring.r3 { animation-delay: 1.4s; }
+  @keyframes radarPing {
+    0%   { transform: scale(1);   opacity: 0.85; }
+    100% { transform: scale(5.5); opacity: 0; }
+  }
+  .place-tooltip {
+    position: fixed; z-index: 15; font-family: 'EB Garamond', Georgia, serif;
+    background: rgba(10,14,16,0.85); color: #f4f1ea; padding: 8px 12px; border-radius: 5px;
+    font-size: 13px; pointer-events: none; transform: translate(-50%, -100%); margin-top: -14px;
+    border: 1px solid rgba(255,211,122,0.4); white-space: nowrap;
+  }
 </style>
 </head>
 <body>
@@ -56,6 +95,7 @@
   <button id="modeBtn">Switch to fly mode</button>
 </div>
 <div id="crosshair"></div>
+<div id="markerLayer"></div>
 
 <script type="importmap">
 {
@@ -72,6 +112,47 @@ import { PointerLockControls } from 'three/addons/controls/PointerLockControls.j
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { DRACOLoader } from 'three/addons/loaders/DRACOLoader.js';
 
+// place marker coords: x = three.X (east/west), h = three.Y (terrain height,
+// already DEM + exaggeration scaled), nsraw = the Lambert-93 north offset
+// BEFORE the Blender Z-up -> glTF Y-up export flip (three.Z = -nsraw).
+const MACONNAIS_PLACES = [
+    { name: 'Bissy-la-Mâconnaise', x: -1858.6, h: 315.9, nsraw: -2258.0, pop: '203' },
+    { name: 'Burgy', x: 1681.1, h: 520.9, nsraw: -4040.9, pop: '113' },
+    { name: 'Chardonnay', x: 3847.2, h: 218.3, nsraw: 1097.3, pop: '205' },
+    { name: 'Chissey-lès-Mâcon', x: -5432.4, h: 298.6, nsraw: 2573.1, pop: '227' },
+    { name: 'Cruzille', x: -1154.7, h: 474.3, nsraw: 606.7, pop: '262' },
+    { name: 'Grevilly', x: 395.6, h: 682.8, nsraw: 1501.6, pop: '27' },
+    { name: 'Lugny', x: 37.7, h: 184.7, nsraw: -3179.1, pop: '852' },
+    { name: 'Montbellet', x: 4749.9, h: 115.9, nsraw: -2659.4, pop: '845' },
+    { name: 'Martailly-lès-Brancion', x: -842.0, h: 459.8, nsraw: 3450.6, pop: '130' },
+    { name: 'Saint-Gengoux-de-Scissé', x: -2795.3, h: 428.6, nsraw: -4258.0, pop: '580' },
+    { name: 'Uchizy', x: 5620.6, h: 203.4, nsraw: 384.8, pop: '815' },
+    { name: 'Plottes', x: 4729.7, h: 293.0, nsraw: 3131.8, pop: '544' },
+];
+const PF_PLACES = [
+    { name: 'Charnay-lès-Mâcon', x: 3723.2, h: 432.7, nsraw: 2182.7, pop: '7969' },
+    { name: 'Crêches-sur-Saône', x: 4056.1, h: 38.2, nsraw: -4858.8, pop: '3156' },
+    { name: 'Chaintré', x: 1938.1, h: 475.4, nsraw: -3365.7, pop: '558' },
+    { name: 'Bussières', x: -2365.9, h: 429.0, nsraw: 5200.4, pop: '586' },
+    { name: 'Chânes', x: 1563.2, h: 316.4, nsraw: -4221.7, pop: '529' },
+    { name: 'Chasselas', x: -1247.8, h: 652.7, nsraw: -1626.4, pop: '173' },
+    { name: 'Chevagny-les-Chevrières', x: 2671.4, h: 425.3, nsraw: 4542.8, pop: '597' },
+    { name: 'Davayé', x: 384.3, h: 351.6, nsraw: 1631.0, pop: '694' },
+    { name: 'Fuissé', x: 685.8, h: 311.3, nsraw: -1209.5, pop: '361' },
+    { name: 'Leynes', x: -502.0, h: 574.3, nsraw: -2386.3, pop: '492' },
+    { name: 'Saint-Amour-Bellevue', x: 681.9, h: 576.9, nsraw: -5057.2, pop: '571' },
+    { name: 'Pierreclos', x: -3798.5, h: 408.7, nsraw: 4671.4, pop: '851' },
+    { name: 'Pruzilly', x: -2804.5, h: 1046.2, nsraw: -3665.3, pop: '338' },
+    { name: 'Prissé', x: 645.2, h: 175.6, nsraw: 3380.0, pop: '1883' },
+    { name: 'Solutré-Pouilly', x: -851.6, h: 637.4, nsraw: 642.4, pop: '353' },
+    { name: 'Vergisson', x: -1583.4, h: 586.4, nsraw: 2021.3, pop: '244' },
+    { name: 'Vinzelles', x: 2568.4, h: 228.8, nsraw: -2095.2, pop: '747' },
+    { name: 'Jullié', x: -4301.1, h: 765.6, nsraw: -5529.0, pop: '475' },
+    { name: 'Loché', x: 2425.4, h: 227.6, nsraw: -1349.7, pop: null },
+    { name: 'Serrières', x: -4237.3, h: 590.1, nsraw: 2286.2, pop: '281' },
+    { name: 'Saint-Vérand', x: 40.3, h: 445.4, nsraw: -4012.3, pop: '158' },
+];
+
 const SCENES = {
   'maconnais': {
     title: 'Mâconnais — Guillot-Broux',
@@ -79,6 +160,7 @@ const SCENES = {
     file: 'terrain.glb',
     startPos: [-2000, 2800, 10000],
     startTarget: [0, 500, 0],
+    places: MACONNAIS_PLACES,
   },
   'pouilly-fuisse': {
     title: 'Pouilly-Fuissé — le Repostère',
@@ -86,6 +168,7 @@ const SCENES = {
     file: 'pf_terrain.glb',
     startPos: [-2200, 3100, 10500],
     startTarget: [0, 600, 0],
+    places: PF_PLACES,
   },
 };
 
@@ -116,6 +199,81 @@ loader.setDRACOLoader(draco);
 
 let currentTerrain = null;
 
+// ---- clickable radar-ping place markers ----
+const markerLayer = document.getElementById('markerLayer');
+let markers = []; // { el, worldPos, pop, name }
+let tooltipEl = null;
+
+function clearMarkers() {
+  markers.forEach((m) => m.el.remove());
+  markers = [];
+  if (tooltipEl) { tooltipEl.remove(); tooltipEl = null; }
+}
+
+function buildMarkers(places) {
+  clearMarkers();
+  const MARKER_LIFT = 70; // meters above the DEM surface so the dot doesn't sink into the mesh
+  places.forEach((p) => {
+    const worldPos = new THREE.Vector3(p.x, p.h + MARKER_LIFT, -p.nsraw);
+    const el = document.createElement('div');
+    el.className = 'place-marker';
+    el.innerHTML =
+      '<div class="label">' + p.name + '</div>' +
+      '<div class="radar"><div class="ring r1"></div><div class="ring r2"></div><div class="ring r3"></div><div class="dot"></div></div>';
+    el.addEventListener('click', (e) => {
+      e.stopPropagation();
+      focusPlace(p, worldPos);
+    });
+    markerLayer.appendChild(el);
+    markers.push({ el, worldPos, pop: p.pop, name: p.name });
+  });
+}
+
+function focusPlace(p, worldPos) {
+  // smooth fly-to: tween the orbit target toward the clicked village
+  const startTarget = orbit.target.clone();
+  const endTarget = new THREE.Vector3(worldPos.x, worldPos.y, worldPos.z);
+  const t0 = performance.now();
+  const DURATION = 900;
+  function step() {
+    const t = Math.min(1, (performance.now() - t0) / DURATION);
+    const ease = 1 - Math.pow(1 - t, 3);
+    orbit.target.lerpVectors(startTarget, endTarget, ease);
+    orbit.update();
+    if (t < 1) requestAnimationFrame(step);
+  }
+  step();
+
+  if (tooltipEl) tooltipEl.remove();
+  tooltipEl = document.createElement('div');
+  tooltipEl.className = 'place-tooltip';
+  tooltipEl.textContent = p.name + (p.pop ? ' · pop. ' + p.pop : '');
+  document.body.appendChild(tooltipEl);
+  clearTimeout(tooltipEl._hideTimer);
+  tooltipEl._hideTimer = setTimeout(() => { if (tooltipEl) { tooltipEl.remove(); tooltipEl = null; } }, 3500);
+}
+
+function updateMarkers() {
+  if (!markers.length) return;
+  const v = new THREE.Vector3();
+  markers.forEach((m) => {
+    v.copy(m.worldPos).project(camera);
+    const behind = v.z > 1 || v.z < -1;
+    const onscreen = v.x > -1.15 && v.x < 1.15 && v.y > -1.15 && v.y < 1.15;
+    m.el.style.display = (!behind && onscreen) ? '' : 'none';
+    if (!behind && onscreen) {
+      const x = (v.x * 0.5 + 0.5) * innerWidth;
+      const y = (-v.y * 0.5 + 0.5) * innerHeight;
+      m.el.style.left = x + 'px';
+      m.el.style.top = y + 'px';
+      if (tooltipEl && tooltipEl._follow === m) {
+        tooltipEl.style.left = x + 'px';
+        tooltipEl.style.top = y + 'px';
+      }
+    }
+  });
+}
+
 function loadScene(key) {
   const cfg = SCENES[key];
   document.getElementById('loading').style.display = 'flex';
@@ -140,6 +298,7 @@ function loadScene(key) {
     camera.position.set(...cfg.startPos);
     orbit.target.set(...cfg.startTarget);
     orbit.update();
+    buildMarkers(cfg.places || []);
     document.getElementById('loading').style.display = 'none';
   }, undefined, (err) => {
     document.getElementById('loading').textContent = 'Failed to load ' + cfg.file;
@@ -226,6 +385,7 @@ function animate() {
   } else {
     orbit.update();
   }
+  updateMarkers();
   renderer.render(scene, camera);
   requestAnimationFrame(animate);
 }
