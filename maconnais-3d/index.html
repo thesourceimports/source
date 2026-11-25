@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mâconnais — Interactive 3D Terrain</title>
+<title>The Source — Interactive 3D Terrain</title>
 <style>
   html, body { margin: 0; padding: 0; overflow: hidden; background: #0b1114; height: 100%; }
   canvas { display: block; }
@@ -11,17 +11,25 @@
     position: fixed; top: 16px; left: 16px; z-index: 10;
     font-family: 'EB Garamond', Georgia, serif; color: #f4f1ea;
     background: rgba(10,14,16,0.55); backdrop-filter: blur(4px);
-    padding: 14px 18px; border-radius: 6px; max-width: 320px;
+    padding: 14px 18px; border-radius: 6px; max-width: 340px;
     font-size: 14px; line-height: 1.5;
   }
   #hud h1 { font-size: 17px; margin: 0 0 6px; font-weight: 600; letter-spacing: 0.02em; }
   #hud .sub { opacity: 0.8; font-size: 12.5px; margin-bottom: 10px; }
+  .btnRow { display: flex; gap: 8px; margin-bottom: 8px; flex-wrap: wrap; }
+  .srcBtn {
+    padding: 6px 12px; border: 1px solid rgba(244,241,234,0.35); border-radius: 4px;
+    background: transparent; color: #f4f1ea; font-family: inherit; font-size: 13px;
+    cursor: pointer; letter-spacing: 0.02em;
+  }
+  .srcBtn.active { background: #3b5f45; border-color: #3b5f45; }
+  .srcBtn:hover { background: #4a7357; border-color: #4a7357; }
   #modeBtn {
-    display: inline-block; margin-top: 4px; padding: 7px 14px;
-    background: #3b5f45; color: #f4f1ea; border: none; border-radius: 4px;
+    display: inline-block; margin-top: 2px; padding: 7px 14px;
+    background: #6b4a2e; color: #f4f1ea; border: none; border-radius: 4px;
     font-family: inherit; font-size: 13px; cursor: pointer; letter-spacing: 0.03em;
   }
-  #modeBtn:hover { background: #4a7357; }
+  #modeBtn:hover { background: #8a6240; }
   #crosshair {
     position: fixed; top: 50%; left: 50%; width: 6px; height: 6px;
     margin: -3px 0 0 -3px; border-radius: 50%;
@@ -37,8 +45,12 @@
 <body>
 <div id="loading">Loading terrain…</div>
 <div id="hud">
-  <h1>Mâconnais — Guillot-Broux</h1>
-  <div class="sub">DEM-driven 3D relief, our vineyard map draped on top.</div>
+  <h1 id="title">Mâconnais — Guillot-Broux</h1>
+  <div class="sub" id="subtitle">DEM-driven 3D relief, our vineyard map draped on top.</div>
+  <div class="btnRow">
+    <button class="srcBtn active" data-scene="maconnais">Mâconnais</button>
+    <button class="srcBtn" data-scene="pouilly-fuisse">Pouilly-Fuissé</button>
+  </div>
   <div id="orbitHelp">Drag to orbit · scroll to zoom · right-drag to pan</div>
   <div id="flyHelp" style="display:none">Click to look around · WASD to fly · Space/Shift up/down · Esc to release</div>
   <button id="modeBtn">Switch to fly mode</button>
@@ -60,6 +72,23 @@ import { PointerLockControls } from 'three/addons/controls/PointerLockControls.j
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { DRACOLoader } from 'three/addons/loaders/DRACOLoader.js';
 
+const SCENES = {
+  'maconnais': {
+    title: 'Mâconnais — Guillot-Broux',
+    subtitle: 'DEM-driven 3D relief, our vineyard map draped on top.',
+    file: 'terrain.glb',
+    startPos: [-2000, 2800, 10000],
+    startTarget: [0, 500, 0],
+  },
+  'pouilly-fuisse': {
+    title: 'Pouilly-Fuissé — le Repostère',
+    subtitle: 'DEM-driven 3D relief over the Roche de Solutré/Vergisson belt.',
+    file: 'pf_terrain.glb',
+    startPos: [-2200, 3100, 10500],
+    startTarget: [0, 600, 0],
+  },
+};
+
 const scene = new THREE.Scene();
 scene.background = new THREE.Color(0x8ca6b8);
 scene.fog = new THREE.Fog(0x8ca6b8, 4000, 40000);
@@ -67,9 +96,6 @@ scene.fog = new THREE.Fog(0x8ca6b8, 4000, 40000);
 const camera = new THREE.PerspectiveCamera(50, innerWidth / innerHeight, 1, 100000);
 // glTF/three.js convention is Y-up (the Blender exporter already rotated
 // Z-up -> Y-up on export) - camera.up stays the THREE.js default (0,1,0)
-// Lower, more oblique start so the relief actually reads (a steep overhead
-// angle flattens perspective and hides elevation change).
-camera.position.set(-2000, 2800, 10000);
 
 const renderer = new THREE.WebGLRenderer({ antialias: true });
 renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
@@ -78,7 +104,6 @@ renderer.outputColorSpace = THREE.SRGBColorSpace;
 document.body.appendChild(renderer.domElement);
 
 // lighting - lower ambient so the raking sun actually reveals relief shading
-// (0.55 ambient was washing out all the slope-driven contrast)
 scene.add(new THREE.AmbientLight(0xffffff, 0.28));
 const sun = new THREE.DirectionalLight(0xfff3dd, 2.0);
 sun.position.set(-6000, 9000, 6000); // (x, height, depth) - Y is up
@@ -89,44 +114,49 @@ draco.setDecoderPath('https://unpkg.com/three@0.160.0/examples/jsm/libs/draco/')
 const loader = new GLTFLoader();
 loader.setDRACOLoader(draco);
 
-let terrainCenter = new THREE.Vector3(0, 0, 0);
+let currentTerrain = null;
 
-window.__debug = { scene, camera };
-loader.load('terrain.glb', (gltf) => {
-  scene.add(gltf.scene);
-  let meshInfo = [];
-  gltf.scene.traverse((o) => {
-    if (o.isMesh) {
-      o.material.side = THREE.DoubleSide;
-      o.geometry.computeVertexNormals();
-      o.geometry.computeBoundingBox();
-      const bb = o.geometry.boundingBox;
-      meshInfo.push({
-        name: o.name,
-        localBoundsY: [bb.min.y, bb.max.y],
-        worldScale: o.getWorldScale(new THREE.Vector3()).toArray(),
-        worldPos: o.getWorldPosition(new THREE.Vector3()).toArray(),
-      });
-    }
+function loadScene(key) {
+  const cfg = SCENES[key];
+  document.getElementById('loading').style.display = 'flex';
+  document.getElementById('loading').textContent = 'Loading terrain…';
+  document.getElementById('title').textContent = cfg.title;
+  document.getElementById('subtitle').textContent = cfg.subtitle;
+  document.querySelectorAll('.srcBtn').forEach((b) => b.classList.toggle('active', b.dataset.scene === key));
+
+  loader.load(cfg.file, (gltf) => {
+    if (currentTerrain) scene.remove(currentTerrain);
+    currentTerrain = gltf.scene;
+    scene.add(currentTerrain);
+    currentTerrain.traverse((o) => {
+      if (o.isMesh) {
+        o.material.side = THREE.DoubleSide;
+        // Don't trust exported normals - recompute from the real displaced
+        // vertex positions (a prior export path, Draco compression, zeroed
+        // the elevation entirely on decode; this is a cheap safety net).
+        o.geometry.computeVertexNormals();
+      }
+    });
+    camera.position.set(...cfg.startPos);
+    orbit.target.set(...cfg.startTarget);
+    orbit.update();
+    document.getElementById('loading').style.display = 'none';
+  }, undefined, (err) => {
+    document.getElementById('loading').textContent = 'Failed to load ' + cfg.file;
+    console.error(err);
   });
-  window.__debug.meshInfo = meshInfo;
-  const box = new THREE.Box3().setFromObject(gltf.scene);
-  box.getCenter(terrainCenter);
-  window.__debug.worldBox = [box.min.toArray(), box.max.toArray()];
-  orbit.target.copy(terrainCenter);
-  document.getElementById('loading').style.display = 'none';
-}, undefined, (err) => {
-  document.getElementById('loading').textContent = 'Failed to load terrain.glb';
-  console.error(err);
-});
+}
 
 // ---- orbit mode (default: hover/drag to explore) ----
 const orbit = new OrbitControls(camera, renderer.domElement);
-orbit.target.set(0, 500, 0); // Y is up/height
 orbit.maxDistance = 30000;
 orbit.minDistance = 300;
 orbit.maxPolarAngle = Math.PI * 0.49; // keep the camera from diving under the terrain
-orbit.update();
+
+document.querySelectorAll('.srcBtn').forEach((btn) => {
+  btn.addEventListener('click', () => loadScene(btn.dataset.scene));
+});
+loadScene('maconnais');
 
 // ---- fly mode (WASD + mouse-look, game-style) ----
 const fly = new PointerLockControls(camera, document.body);
@@ -156,11 +186,6 @@ modeBtn.addEventListener('click', () => {
     orbitHelp.style.display = 'block';
     flyHelpEl.style.display = 'none';
     crosshair.style.display = 'none';
-  }
-});
-fly.addEventListener('unlock', () => {
-  if (flyMode) {
-    // re-lock on next click rather than silently falling back to orbit
   }
 });
 
