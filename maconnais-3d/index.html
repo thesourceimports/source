@@ -91,20 +91,28 @@ loader.setDRACOLoader(draco);
 
 let terrainCenter = new THREE.Vector3(0, 0, 0);
 
+window.__debug = { scene, camera };
 loader.load('terrain.glb', (gltf) => {
   scene.add(gltf.scene);
+  let meshInfo = [];
   gltf.scene.traverse((o) => {
     if (o.isMesh) {
       o.material.side = THREE.DoubleSide;
-      // Force-recompute smooth normals from the actual displaced vertex
-      // positions - don't trust whatever normals the export carried, since a
-      // flat/wrong normal set would wash out all the relief shading even
-      // though the geometry itself is correctly displaced.
       o.geometry.computeVertexNormals();
+      o.geometry.computeBoundingBox();
+      const bb = o.geometry.boundingBox;
+      meshInfo.push({
+        name: o.name,
+        localBoundsY: [bb.min.y, bb.max.y],
+        worldScale: o.getWorldScale(new THREE.Vector3()).toArray(),
+        worldPos: o.getWorldPosition(new THREE.Vector3()).toArray(),
+      });
     }
   });
+  window.__debug.meshInfo = meshInfo;
   const box = new THREE.Box3().setFromObject(gltf.scene);
   box.getCenter(terrainCenter);
+  window.__debug.worldBox = [box.min.toArray(), box.max.toArray()];
   orbit.target.copy(terrainCenter);
   document.getElementById('loading').style.display = 'none';
 }, undefined, (err) => {
