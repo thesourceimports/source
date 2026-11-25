@@ -67,7 +67,9 @@ scene.fog = new THREE.Fog(0x8ca6b8, 4000, 40000);
 const camera = new THREE.PerspectiveCamera(50, innerWidth / innerHeight, 1, 100000);
 // glTF/three.js convention is Y-up (the Blender exporter already rotated
 // Z-up -> Y-up on export) - camera.up stays the THREE.js default (0,1,0)
-camera.position.set(0, 5500, 9000);
+// Lower, more oblique start so the relief actually reads (a steep overhead
+// angle flattens perspective and hides elevation change).
+camera.position.set(-2000, 2800, 10000);
 
 const renderer = new THREE.WebGLRenderer({ antialias: true });
 renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
