@@ -286,6 +286,7 @@ function loadScene(key) {
     if (currentTerrain) scene.remove(currentTerrain);
     currentTerrain = gltf.scene;
     scene.add(currentTerrain);
+    const maxAniso = renderer.capabilities.getMaxAnisotropy();
     currentTerrain.traverse((o) => {
       if (o.isMesh) {
         o.material.side = THREE.DoubleSide;
@@ -293,6 +294,11 @@ function loadScene(key) {
         // vertex positions (a prior export path, Draco compression, zeroed
         // the elevation entirely on decode; this is a cheap safety net).
         o.geometry.computeVertexNormals();
+        // Anisotropic filtering - off by default in three.js, but this is a
+        // terrain drape viewed at shallow/raking angles constantly, which is
+        // exactly the case anisotropy exists to sharpen.
+        const map = o.material.map;
+        if (map) { map.anisotropy = maxAniso; map.needsUpdate = true; }
       }
     });
     camera.position.set(...cfg.startPos);
